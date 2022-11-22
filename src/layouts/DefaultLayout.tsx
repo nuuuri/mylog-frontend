@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { Outlet } from "react-router";
 import { LayoutDefaultProps } from "@types";
-import DefaultHeader from "components/header";
+import Header from "components/header";
 import GlobalNavigationBar from "components/gnb";
 
 export default function DefaultLayout({ children }: LayoutDefaultProps) {
   return (
     <>
-      <DefaultHeader />
+      <Header />
       <Main>
         <GlobalNavigationBar />
         <Page>{children || <Outlet />}</Page>

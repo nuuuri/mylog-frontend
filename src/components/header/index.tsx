@@ -1,7 +1,7 @@
 import { ReactComponent as menuIcon } from "assets/images/menu-icon.svg";
 import styled from "styled-components";
 
-export default function DefaultHeader(props: { onClickMenu?: Function }) {
+export default function Header(props: { onClickMenu?: Function }) {
   const onClickMenuIcon = () => {
     if (props.onClickMenu) {
       props.onClickMenu();
