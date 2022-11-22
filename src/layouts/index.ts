@@ -1,2 +1,3 @@
 import DefaultLayout from "./DefaultLayout";
-export { DefaultLayout };
+import AnimatedLayout from "./AnimatedLayout";
+export { DefaultLayout, AnimatedLayout };

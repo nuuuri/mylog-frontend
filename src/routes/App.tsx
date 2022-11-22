@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // layouts
-import { DefaultLayout } from "layouts";
+import { AnimatedLayout } from "layouts";
 // pages
 import HomePage from "pages/home";
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route element={<DefaultLayout />}>
+        <Route element={<AnimatedLayout />}>
           <Route index element={<HomePage />} />
         </Route>
       </Routes>
