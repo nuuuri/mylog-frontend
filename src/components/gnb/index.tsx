@@ -30,6 +30,7 @@ const Container = styled.div`
   padding-top: 30px;
   padding-left: 30px;
   background: #f1f1f1;
+  font-family: "NanumSquareRound";
 `;
 const Menu = styled.div`
   margin: 5px 0;
