@@ -4,9 +4,10 @@ import styled from "styled-components";
 export default function GlobalNavigationBar() {
   return (
     <Container>
-      <GlobalNavigationBar.Menu href="/" text="홈" />
-      <GlobalNavigationBar.Menu href="/post" text="게시판" />
-      <GlobalNavigationBar.Menu href="/" text="페이지" />
+      <GlobalNavigationBar.Menu href="/" text="HOME" />
+      <GlobalNavigationBar.Menu href="/" text="CATEGORIES" />
+      <GlobalNavigationBar.Menu href="/" text="TAGS" />
+      <GlobalNavigationBar.Menu href="/" text="ABOUT" />
     </Container>
   );
 }
@@ -24,10 +25,10 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 250px;
   height: calc(100vh - 50px);
-  padding-top: 10px;
+  padding-top: 30px;
+  padding-left: 30px;
   background: #f1f1f1;
 `;
 const Menu = styled.div`
