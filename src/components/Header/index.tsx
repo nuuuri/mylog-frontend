@@ -1,7 +1,10 @@
 import { ReactComponent as menuIcon } from "assets/images/menu-icon.svg";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Header(props: { onClickMenu?: Function }) {
+  const navigate = useNavigate();
+
   const onClickMenuIcon = () => {
     if (props.onClickMenu) {
       props.onClickMenu();
@@ -11,6 +14,7 @@ export default function Header(props: { onClickMenu?: Function }) {
   return (
     <Container>
       <MenuIcon onClick={onClickMenuIcon} />
+      <Logo onClick={() => navigate("/")}>MyLog</Logo>
     </Container>
   );
 }
@@ -24,5 +28,13 @@ const Container = styled.header`
 const MenuIcon = styled(menuIcon)`
   margin-left: 20px;
   filter: invert(1);
+  cursor: pointer;
+`;
+const Logo = styled.div`
+  position: absolute;
+  left: 50%;
+  font-family: "SDSamliphopangche_Outline";
+  font-size: 23px;
+  color: #fff;
   cursor: pointer;
 `;
