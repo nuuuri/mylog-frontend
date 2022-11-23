@@ -39,24 +39,24 @@ const Page = styled.div<{ isFullScreen: boolean }>`
     from {
       width: 100vw;
       left: 0;
-      padding: 50px 200px;
+      padding: 50px 300px;
     }
     to {
       width: calc(100vw - 250px);
       left: 250px;
-      padding: 50px;
+      padding: 50px 150px;
     }
   }
   @keyframes gnbClose {
     from {
       width: calc(100vw - 250px);
       left: 250px;
-      padding: 50px;
+      padding: 50px 150px;
     }
     to {
       width: 100vw;
       left: 0;
-      padding: 50px 200px;
+      padding: 50px 300px;
     }
   }
 `;

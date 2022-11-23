@@ -52,6 +52,4 @@ const Line = styled.div`
 `;
 const Body = styled.div`
   margin-top: 25px;
-  column-width: 400px;
-  column-gap: 30px;
 `;
