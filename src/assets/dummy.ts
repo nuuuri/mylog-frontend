@@ -82,7 +82,8 @@ export const posts = [
     writer: 1, // user_uuid
     category: "test",
     title: "첫번째 게시물입니다.",
-    content: "test test test",
+    content:
+      "test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용!test입니다 신나용!test입니다 신나용! ",
     created: "2022-11-23 12:17",
     modified: "2022-11-23 12:38",
     tags: ["test", "테스트"],
