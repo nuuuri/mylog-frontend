@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import { posts } from "assets/dummy";
 import PostCard from "components/PostCard";
+import Pagination from "components/Pagination";
+import { useState } from "react";
 
 export default function HomePage() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 5;
+  const offset = limit * (currentPage - 1);
   const totalPosts = posts;
 
   return (
@@ -13,10 +18,15 @@ export default function HomePage() {
       </Header>
       <Line />
       <Body>
-        {totalPosts.map((post) => (
+        {totalPosts.slice(offset, offset + limit).map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </Body>
+      <Pagination
+        totalPage={Math.ceil(totalPosts.length / limit)}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </Container>
   );
 }
@@ -51,5 +61,5 @@ const Line = styled.div`
   background: #e2e2e2;
 `;
 const Body = styled.div`
-  margin-top: 25px;
+  margin: 25px 0 50px 0;
 `;

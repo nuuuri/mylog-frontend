@@ -41,6 +41,7 @@ export default function PostCard(props: { post: any }) {
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+  height: 100px;
   margin-bottom: 40px;
   break-inside: avoid-column;
 `;
