@@ -1,5 +1,6 @@
-import { posts } from "assets/dummy";
 import styled from "styled-components";
+import { posts } from "assets/dummy";
+import PostCard from "components/PostCard";
 
 export default function HomePage() {
   const totalPosts = posts;
@@ -13,9 +14,7 @@ export default function HomePage() {
       <Line />
       <Body>
         {totalPosts.map((post) => (
-          <div key={post.id}>
-            <div>{post.title}</div>
-          </div>
+          <PostCard key={post.id} post={post} />
         ))}
       </Body>
     </Container>
@@ -23,7 +22,7 @@ export default function HomePage() {
 }
 
 const Container = styled.div`
-  font-family: "MonoplexKR-Regular";
+  font-family: "MonoplexKR";
 `;
 const Header = styled.div`
   display: flex;
@@ -31,8 +30,8 @@ const Header = styled.div`
   cursor: default;
 
   .total-posts-title {
-    font-size: 20px;
-    font-weight: 300;
+    font-size: 17px;
+    font-weight: 400;
   }
   .total-posts-number {
     width: fit-content;
@@ -53,4 +52,6 @@ const Line = styled.div`
 `;
 const Body = styled.div`
   margin-top: 25px;
+  /*  column-width: 300px;
+  column-gap: 30px; */
 `;

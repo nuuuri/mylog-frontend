@@ -14,11 +14,14 @@ export const posts = [
     id: 1,
     writer: 1, // user_uuid
     category: "test",
-    title: "첫번째 게시물입니다.",
-    content: "test test test",
+    title:
+      "뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목",
+    content:
+      "test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용!test입니다 신나용!test입니다 신나용! ",
     created: "2022-11-23 12:17",
     modified: "2022-11-23 12:38",
     tags: ["test", "테스트"],
+    thumbnail: "123",
   },
   {
     id: 2,
@@ -29,13 +32,16 @@ export const posts = [
     created: "2022-11-23 12:17",
     modified: "2022-11-23 12:38",
     tags: ["test", "테스트"],
+    thumbnail: "123",
   },
   {
     id: 3,
     writer: 1, // user_uuid
     category: "test",
-    title: "첫번째 게시물입니다.",
-    content: "test test test",
+    title:
+      "뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목입니당!!!",
+    content:
+      "test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용!test입니다 신나용!test입니다 신나용! ",
     created: "2022-11-23 12:17",
     modified: "2022-11-23 12:38",
     tags: ["test", "테스트"],
@@ -49,6 +55,7 @@ export const posts = [
     created: "2022-11-23 12:17",
     modified: "2022-11-23 12:38",
     tags: ["test", "테스트"],
+    thumbnail: "123",
   },
   {
     id: 5,
