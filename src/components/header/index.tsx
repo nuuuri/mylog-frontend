@@ -19,7 +19,7 @@ const Container = styled.header`
   display: flex;
   align-items: center;
   height: 50px;
-  background: #d5eff8;
+  background: #add8e6;
 `;
 const MenuIcon = styled(menuIcon)`
   margin-left: 20px;
