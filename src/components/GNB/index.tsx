@@ -31,7 +31,7 @@ const Container = styled.div`
   font-family: "NanumSquareRound";
 `;
 const Menu = styled.div`
-  margin: 5px 0;
+  margin: 10px 0;
   font-weight: 600;
   font-size: 15px;
   color: #444;
