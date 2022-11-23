@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { Outlet } from "react-router";
 import { LayoutDefaultProps } from "@types";
-import Header from "components/header";
-import GlobalNavigationBar from "components/gnb";
+import Header from "components/Header";
+import GNB from "components/GNB";
 
 export default function DefaultLayout({ children }: LayoutDefaultProps) {
   return (
     <>
       <Header />
       <Main>
-        <GlobalNavigationBar />
+        <GNB />
         <Page>{children || <Outlet />}</Page>
       </Main>
     </>

@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Outlet } from "react-router";
 import { LayoutDefaultProps } from "@types";
-import Header from "components/header";
-import GlobalNavigationBar from "components/gnb";
+import Header from "components/Header";
+import GNB from "components/GNB";
 
 export default function AnimatedLayout({ children }: LayoutDefaultProps) {
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -13,7 +13,7 @@ export default function AnimatedLayout({ children }: LayoutDefaultProps) {
       <Header onClickMenu={() => setIsFullScreen((state) => !state)} />
       <Main>
         <AnimatedGnb isFullScreen={isFullScreen}>
-          <GlobalNavigationBar />
+          <GNB />
         </AnimatedGnb>
         <Page isFullScreen={isFullScreen}>{children || <Outlet />}</Page>
       </Main>
