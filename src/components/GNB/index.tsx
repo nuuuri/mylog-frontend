@@ -1,22 +1,40 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import CategoryList from "./CategoryList";
 
 // GlobalNavigationBar
 export default function GNB() {
+  const [categoryOpen, setCategoryOpen] = useState(true);
+
   return (
     <Container>
       <GNB.Menu href="/" text="HOME" />
-      <GNB.Menu href="/" text="CATEGORIES" />
+      <GNB.Menu
+        href="/"
+        text="CATEGORIES"
+        onClick={() => setCategoryOpen(!categoryOpen)}
+      />
+      {categoryOpen && <CategoryList />}
       <GNB.Menu href="/" text="TAGS" />
       <GNB.Menu href="/" text="ABOUT" />
     </Container>
   );
 }
 
-GNB.Menu = function NavigationMenu(props: { href: string; text: string }) {
+GNB.Menu = function NavigationMenu(props: {
+  href: string;
+  text: string;
+  onClick?: Function;
+}) {
   const navigate = useNavigate();
 
-  return <Menu onClick={() => navigate(props.href)}>{props.text}</Menu>;
+  const onClickMenu = () => {
+    if (props.onClick) props.onClick();
+    else navigate(props.href);
+  };
+
+  return <Menu onClick={onClickMenu}>{props.text}</Menu>;
 };
 
 const Container = styled.div`

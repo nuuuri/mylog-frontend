@@ -13,7 +13,7 @@ export const posts = [
   {
     id: 1,
     writer: 1, // user_uuid
-    category: "test",
+    category: "React",
     title:
       "뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목",
     content:
@@ -26,7 +26,7 @@ export const posts = [
   {
     id: 2,
     writer: 1, // user_uuid
-    category: "test",
+    category: "React",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -37,7 +37,7 @@ export const posts = [
   {
     id: 3,
     writer: 1, // user_uuid
-    category: "test",
+    category: "React",
     title:
       "뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목입니당!!!",
     content:
@@ -49,7 +49,7 @@ export const posts = [
   {
     id: 4,
     writer: 1, // user_uuid
-    category: "test",
+    category: "React",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -60,7 +60,7 @@ export const posts = [
   {
     id: 5,
     writer: 1, // user_uuid
-    category: "test",
+    category: "NextJS",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -70,7 +70,7 @@ export const posts = [
   {
     id: 6,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -80,7 +80,7 @@ export const posts = [
   {
     id: 7,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content:
       "test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용!test입니다 신나용!test입니다 신나용! ",
@@ -91,7 +91,7 @@ export const posts = [
   {
     id: 3,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title:
       "뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목입니당!!!",
     content:
@@ -103,7 +103,7 @@ export const posts = [
   {
     id: 4,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -114,7 +114,7 @@ export const posts = [
   {
     id: 5,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -124,7 +124,7 @@ export const posts = [
   {
     id: 6,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -134,7 +134,7 @@ export const posts = [
   {
     id: 7,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content:
       "test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용!test입니다 신나용!test입니다 신나용! ",
@@ -145,7 +145,7 @@ export const posts = [
   {
     id: 3,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title:
       "뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목 뭔가 긴 제목입니당!!!",
     content:
@@ -157,7 +157,7 @@ export const posts = [
   {
     id: 4,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -168,7 +168,7 @@ export const posts = [
   {
     id: 5,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -178,7 +178,7 @@ export const posts = [
   {
     id: 6,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Spring",
     title: "첫번째 게시물입니다.",
     content: "test test test",
     created: "2022-11-23 12:17",
@@ -188,7 +188,7 @@ export const posts = [
   {
     id: 7,
     writer: 1, // user_uuid
-    category: "test",
+    category: "Java",
     title: "마지막 게시물입니다.",
     content:
       "test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용! test입니다 신나용!test입니다 신나용!test입니다 신나용! ",

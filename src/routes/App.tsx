@@ -4,6 +4,7 @@ import "../styles/fonts.css";
 import { AnimatedLayout } from "layouts";
 // pages
 import HomePage from "pages/home";
+import CategoryPage from "pages/category";
 
 function App() {
   return (
@@ -11,6 +12,11 @@ function App() {
       <Routes>
         <Route element={<AnimatedLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="/category/:category" element={<CategoryPage />} />
+          <Route
+            path="/category/:category/:subCategory"
+            element={<CategoryPage />}
+          />
         </Route>
       </Routes>
     </Router>
