@@ -24,12 +24,17 @@ export default function PostList(props: {
         {posts.slice(offset, offset + limit).map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
+        {posts.length === 0 && (
+          <div className="empty-message">게시글이 존재하지 않습니다.</div>
+        )}
       </Body>
-      <Pagination
-        totalPage={Math.ceil(posts.length / limit)}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {posts.length > 0 && (
+        <Pagination
+          totalPage={Math.ceil(posts.length / limit)}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
     </Container>
   );
 }
@@ -65,4 +70,9 @@ const Line = styled.div`
 `;
 const Body = styled.div`
   margin: 25px 0 50px 0;
+
+  .empty-message {
+    color: #999;
+    font-size: 15px;
+  }
 `;
