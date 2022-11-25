@@ -6,6 +6,7 @@ import CategoryList from "./CategoryList";
 // GlobalNavigationBar
 export default function GNB() {
   const [categoryOpen, setCategoryOpen] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <Container>
@@ -18,6 +19,9 @@ export default function GNB() {
       {categoryOpen && <CategoryList />}
       <GNB.Menu href="/" text="TAGS" />
       <GNB.Menu href="/" text="ABOUT" />
+      <PostingButton onClick={() => navigate("/postwrite")}>
+        글쓰기
+      </PostingButton>
     </Container>
   );
 }
@@ -54,5 +58,12 @@ const Menu = styled.div`
   font-weight: 600;
   font-size: 15px;
   color: #444;
+  cursor: pointer;
+`;
+const PostingButton = styled.button`
+  position: absolute;
+  bottom: 30px;
+  width: calc(100% - 60px);
+  height: 35px;
   cursor: pointer;
 `;

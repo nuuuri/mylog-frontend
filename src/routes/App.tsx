@@ -5,6 +5,7 @@ import { AnimatedLayout } from "layouts";
 // pages
 import HomePage from "pages/home";
 import CategoryPage from "pages/category";
+import PostWritePage from "pages/postwrite";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             path="/category/:category/:subCategory"
             element={<CategoryPage />}
           />
+          <Route path="/postwrite" element={<PostWritePage />} />
         </Route>
       </Routes>
     </Router>
