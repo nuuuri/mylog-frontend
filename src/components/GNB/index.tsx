@@ -49,6 +49,7 @@ const Container = styled.div`
   font-family: "NanumSquareRound";
 `;
 const Menu = styled.div`
+  width: fit-content;
   margin: 10px 0;
   font-weight: 600;
   font-size: 15px;
