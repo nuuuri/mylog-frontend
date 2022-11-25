@@ -6,6 +6,7 @@ interface CategoryType {
   id: number;
   category: string;
   subCategory?: CategoryType[];
+  count: number;
 }
 
 const dummyCategory: CategoryType[] = [
@@ -13,17 +14,19 @@ const dummyCategory: CategoryType[] = [
     id: 1,
     category: "Frontend",
     subCategory: [
-      { id: 2, category: "React" },
-      { id: 3, category: "NextJS" },
+      { id: 2, category: "React", count: 4 },
+      { id: 3, category: "NextJS", count: 1 },
     ],
+    count: 5,
   },
   {
     id: 4,
     category: "Backend",
     subCategory: [
-      { id: 5, category: "Spring" },
-      { id: 6, category: "Java" },
+      { id: 5, category: "Spring", count: 11 },
+      { id: 6, category: "Java", count: 1 },
     ],
+    count: 12,
   },
 ];
 
@@ -69,7 +72,7 @@ CategoryList.SubCategory = function SubCategoryComp(props: {
   const { category } = props.category;
 
   return (
-    <div className="sub_category" onClick={props.onClick}>
+    <div className="sub-category" onClick={props.onClick}>
       {category}
     </div>
   );
@@ -88,7 +91,7 @@ const Container = styled.div`
     }
   }
 
-  .sub_category {
+  .sub-category {
     position: relative;
     margin: 3px 0 3px 60px;
     font-size: 14px;
