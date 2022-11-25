@@ -4,10 +4,10 @@ import { LayoutDefaultProps } from "@types";
 import Header from "components/Header";
 import GNB from "components/GNB";
 
-export default function DefaultLayout({ children }: LayoutDefaultProps) {
+export default function DefaultMenuLayout({ children }: LayoutDefaultProps) {
   return (
     <>
-      <Header />
+      <Header type="MENU" />
       <Main>
         <GNB />
         <Page>{children || <Outlet />}</Page>

@@ -1,3 +1,3 @@
-import DefaultLayout from "./DefaultLayout";
-import AnimatedLayout from "./AnimatedLayout";
-export { DefaultLayout, AnimatedLayout };
+import DefaultMenuLayout from "./DefaultMenuLayout";
+import AnimatedMenuLayout from "./AnimatedMenuLayout";
+export { DefaultMenuLayout, AnimatedMenuLayout };

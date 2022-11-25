@@ -5,12 +5,15 @@ import { LayoutDefaultProps } from "@types";
 import Header from "components/Header";
 import GNB from "components/GNB";
 
-export default function AnimatedLayout({ children }: LayoutDefaultProps) {
+export default function AnimatedMenuLayout({ children }: LayoutDefaultProps) {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   return (
     <>
-      <Header onClickMenu={() => setIsFullScreen((state) => !state)} />
+      <Header
+        type="MENU"
+        onClickMenu={() => setIsFullScreen((state) => !state)}
+      />
       <Main>
         <AnimatedGnb isFullScreen={isFullScreen}>
           <GNB />
