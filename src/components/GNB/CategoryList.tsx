@@ -1,100 +1,119 @@
-import { MouseEventHandler } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import categoryService from "common/axios/categoryService";
 
 interface CategoryType {
   id: number;
-  category: string;
-  subCategory?: CategoryType[];
+  name: string;
+  subCategories?: CategoryType[];
   count: number;
 }
 
-const dummyCategory: CategoryType[] = [
+/* const dummyCategory: CategoryType[] = [
   {
     id: 1,
-    category: "Frontend",
-    subCategory: [
-      { id: 2, category: "React", count: 4 },
-      { id: 3, category: "NextJS", count: 1 },
+    name: "Frontend",
+    subCategories: [
+      { id: 2, name: "React", count: 4 },
+      { id: 3, name: "NextJS", count: 1 },
     ],
     count: 5,
   },
   {
     id: 4,
-    category: "Backend",
-    subCategory: [
-      { id: 5, category: "Spring", count: 11 },
-      { id: 6, category: "Java", count: 1 },
+    name: "Backend",
+    subCategories: [
+      { id: 5, name: "Spring", count: 11 },
+      { id: 6, name: "Java", count: 1 },
     ],
     count: 12,
   },
-];
+]; */
 
 export default function CategoryList() {
+  const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
+
+  useEffect(() => {
+    categoryService.getCategoryList().then((res) => {
+      setCategoryList(res.data);
+    });
+  }, []);
+
   return (
-    <Container>
-      {dummyCategory.map((category) => (
-        <CategoryList.Category key={category.id} category={category} />
+    <Container className="category-list">
+      {categoryList.map((category) => (
+        <Category key={category.id} category={category} />
       ))}
     </Container>
   );
 }
 
-CategoryList.Category = function CategoryComp(props: {
-  category: CategoryType;
-}) {
-  const { category, subCategory } = props.category;
-  const navigate = useNavigate();
+const Category = (props: { category: CategoryType }) => {
+  const { name, count, subCategories } = props.category;
 
   return (
-    <>
-      <div
-        className="category"
-        onClick={() => navigate(`/category/${category}`)}
-      >
-        {category}
-      </div>
-      {subCategory?.map((sub) => (
-        <CategoryList.SubCategory
-          key={sub.id}
-          category={sub}
-          onClick={() => navigate(`/category/${category}/${sub.category}`)}
-        />
-      ))}
-    </>
+    <li className="category">
+      <Category.Item name={name} count={count} href={`/category/${name}`} />
+
+      <ul className="sub-category-list">
+        {subCategories?.map((subCategory) => (
+          <li key={subCategory.id} className="sub-category">
+            <Category.Item
+              name={subCategory.name}
+              count={subCategory.count}
+              href={`/category/${name}/${subCategory.name}`}
+            />
+          </li>
+        ))}
+      </ul>
+    </li>
   );
 };
 
-CategoryList.SubCategory = function SubCategoryComp(props: {
-  category: CategoryType;
-  onClick: MouseEventHandler;
+Category.Item = function CategoryItem(props: {
+  name: string;
+  count: number;
+  href: string;
 }) {
-  const { category } = props.category;
+  const location = useLocation();
+
+  const selected = props.name === location.pathname.split("/").pop();
 
   return (
-    <div className="sub-category" onClick={props.onClick}>
-      {category}
-    </div>
+    <StyledLink className={selected ? "selected" : ""} to={props.href}>
+      {` ${props.name} `}
+      <span className="category-cnt">{`(${props.count})`}</span>
+    </StyledLink>
   );
 };
 
-const Container = styled.div`
-  color: #999;
-  cursor: pointer;
+const Container = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-left: 20px;
+  font-family: "MonoplexKR";
+  font-weight: 500;
 
   .category {
-    margin: 25px 0 0 20px;
+    margin-bottom: 10px;
     font-size: 15px;
+  }
 
-    :first-child {
-      margin-top: 0;
-    }
+  .sub-category-list {
+    list-style-type: none;
+    margin-top: 5px;
   }
 
   .sub-category {
     position: relative;
-    margin: 3px 0 3px 60px;
+    margin-bottom: 5px;
     font-size: 14px;
+
+    a {
+      text-decoration: none;
+    }
 
     ::before {
       content: "";
@@ -105,5 +124,23 @@ const Container = styled.div`
       height: 1px;
       background: #999;
     }
+  }
+
+  .category-cnt {
+    font-size: 12px;
+  }
+
+  .selected {
+    color: #333;
+  }
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #999;
+
+  :hover {
+    text-decoration: underline;
+    color: #333 !important;
+    font-weight: 600;
   }
 `;
