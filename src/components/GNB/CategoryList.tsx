@@ -6,30 +6,10 @@ import categoryService from "common/axios/categoryService";
 interface CategoryType {
   id: number;
   name: string;
-  subCategories?: CategoryType[];
+  label: string;
   count: number;
+  subCategories?: CategoryType[];
 }
-
-/* const dummyCategory: CategoryType[] = [
-  {
-    id: 1,
-    name: "Frontend",
-    subCategories: [
-      { id: 2, name: "React", count: 4 },
-      { id: 3, name: "NextJS", count: 1 },
-    ],
-    count: 5,
-  },
-  {
-    id: 4,
-    name: "Backend",
-    subCategories: [
-      { id: 5, name: "Spring", count: 11 },
-      { id: 6, name: "Java", count: 1 },
-    ],
-    count: 12,
-  },
-]; */
 
 export default function CategoryList() {
   const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
@@ -50,19 +30,19 @@ export default function CategoryList() {
 }
 
 const Category = (props: { category: CategoryType }) => {
-  const { name, count, subCategories } = props.category;
+  const { name, label, count, subCategories } = props.category;
 
   return (
     <li className="category">
-      <Category.Item name={name} count={count} href={`/category/${name}`} />
+      <Category.Item name={name} label={label} count={count} />
 
       <ul className="sub-category-list">
         {subCategories?.map((subCategory) => (
           <li key={subCategory.id} className="sub-category">
             <Category.Item
               name={subCategory.name}
+              label={subCategory.label}
               count={subCategory.count}
-              href={`/category/${name}/${subCategory.name}`}
             />
           </li>
         ))}
@@ -73,15 +53,17 @@ const Category = (props: { category: CategoryType }) => {
 
 Category.Item = function CategoryItem(props: {
   name: string;
+  label: string;
   count: number;
-  href: string;
 }) {
   const location = useLocation();
-
   const selected = props.name === location.pathname.split("/").pop();
 
   return (
-    <StyledLink className={selected ? "selected" : ""} to={props.href}>
+    <StyledLink
+      className={selected ? "selected" : ""}
+      to={`category/${props.label}`}
+    >
       {` ${props.name} `}
       <span className="category-cnt">{`(${props.count})`}</span>
     </StyledLink>
