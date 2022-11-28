@@ -1,6 +1,12 @@
+import { useId, useState } from "react";
 import styled from "styled-components";
+import EditableBlock from "./EditableBlock";
 
 export default function PostWritePage() {
+  const [blocks, setBlocks] = useState<
+    { id: string; html: string; tag: string }[]
+  >([{ id: useId(), html: "", tag: "p" }]);
+
   return (
     <Container>
       <PostMenu>
@@ -42,7 +48,9 @@ export default function PostWritePage() {
       </Toolbar>
 
       <Canvas>
-        <div contentEditable={true} placeholder="제목 없음" />
+        {blocks.map((block, key) => (
+          <EditableBlock key={key} tag={block.tag} html={block.html} />
+        ))}
       </Canvas>
     </Container>
   );
@@ -73,13 +81,4 @@ const Canvas = styled.div`
   height: calc(100% - 140px);
   margin-top: 10px;
   background: #fff;
-
-  div {
-    background: lightblue;
-    outline: none;
-
-    ::after {
-      content: attr(placeholder);
-    }
-  }
 `;
