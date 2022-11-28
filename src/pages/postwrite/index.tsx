@@ -1,11 +1,26 @@
-import { useId, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import EditableBlock from "./EditableBlock";
+
+const uid = () => {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+};
 
 export default function PostWritePage() {
   const [blocks, setBlocks] = useState<
     { id: string; html: string; tag: string }[]
-  >([{ id: useId(), html: "", tag: "p" }]);
+  >([{ id: uid(), html: "", tag: "p" }]);
+
+  const addBlockHandler = (currentBlock: any) => {
+    const addBlock = async () => {
+      const newBlock = { id: uid(), html: "", tag: "p" };
+      setBlocks((b) => [...b, newBlock]);
+    };
+
+    addBlock().then(() => {
+      currentBlock.ref.nextElementSibling.focus();
+    });
+  };
 
   return (
     <Container>
@@ -49,7 +64,13 @@ export default function PostWritePage() {
 
       <Canvas>
         {blocks.map((block, key) => (
-          <EditableBlock key={key} tag={block.tag} html={block.html} />
+          <EditableBlock
+            key={key}
+            id={block.id}
+            tag={block.tag}
+            html={block.html}
+            addBlock={addBlockHandler}
+          />
         ))}
       </Canvas>
     </Container>
