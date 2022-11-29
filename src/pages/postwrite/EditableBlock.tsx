@@ -1,3 +1,4 @@
+import { useRefCallback } from "common/utils/useRefCallback";
 import { useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
@@ -11,17 +12,23 @@ export default function EditableBlock(props: {
   const ref = useRef<HTMLElement>(null);
   const [html, setHtml] = useState(props.html);
   const [tag, setTag] = useState(props.tag);
+  const [previousKey, setPreviousKey] = useState("");
   const [selectMenuIsOpen, setSelectMenuIsOpen] = useState(false);
 
-  const onKeyDownHandler = (e: any) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      props.addBlock({
-        id: props.id,
-        ref: ref.current,
-      });
-    }
-  };
+  const onKeyDownHandler = useRefCallback(
+    (e: any) => {
+      if (e.key === "Enter" && previousKey !== "Shift") {
+        e.preventDefault();
+        props.addBlock({
+          id: props.id,
+          ref: ref.current,
+        });
+      }
+
+      setPreviousKey(e.key);
+    },
+    [previousKey]
+  );
 
   return (
     <>
