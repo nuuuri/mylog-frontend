@@ -16,6 +16,10 @@ export default function EditableBlock(props: {
   const [previousKey, setPreviousKey] = useState("");
   const [selectMenuIsOpen, setSelectMenuIsOpen] = useState(false);
 
+  const onChangeHandler = (e: any) => {
+    setHtml(e.target.value);
+  };
+
   const onKeyDownHandler = useRefCallback(
     (e: any) => {
       if (e.key === "Enter" && previousKey !== "Shift") {
@@ -43,7 +47,7 @@ export default function EditableBlock(props: {
         innerRef={ref}
         html={html}
         tagName={tag}
-        onChange={(e) => setHtml(e.target.value)}
+        onChange={onChangeHandler}
         onKeyDown={onKeyDownHandler}
         placeholder="내용을 입력하세요"
       />
