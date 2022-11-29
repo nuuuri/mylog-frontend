@@ -39,7 +39,7 @@ export default function PostWritePage() {
 
   return (
     <Container>
-      <PostMenu>
+      {/*  <PostMenu>
         <div>사진</div>
         <div>동영상</div>
         <div>스티커</div>
@@ -75,7 +75,7 @@ export default function PostWritePage() {
         <div>특수문자</div>
         <div>링크 입력</div>
         <div>맞춤법</div>
-      </Toolbar>
+      </Toolbar> */}
 
       <Canvas>
         {blocks.map((block, key) => (
@@ -101,7 +101,7 @@ const Container = styled.div`
   height: 100%;
   background: #e9e9e9; ;
 `;
-const PostMenu = styled.div`
+/* const PostMenu = styled.div`
   display: flex;
   width: 100%;
   height: 80px;
@@ -112,10 +112,14 @@ const Toolbar = styled.div`
   width: 100%;
   height: 40px;
   background: pink;
-`;
+`; */
 const Canvas = styled.div`
+  box-sizing: border-box;
   width: 80%;
-  height: calc(100% - 140px);
-  margin-top: 10px;
+  //height: calc(100% - 140px);
+  //margin-top: 10px;
+  height: 90%;
+  margin: auto;
+  padding: 30px 80px;
   background: #fff;
 `;
