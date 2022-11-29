@@ -45,16 +45,21 @@ export default function EditableBlock(props: {
         tagName={tag}
         onChange={(e) => setHtml(e.target.value)}
         onKeyDown={onKeyDownHandler}
+        placeholder="내용을 입력하세요"
       />
     </>
   );
 }
 
 const StyledBlock = styled(ContentEditable)`
+  font-family: "NanumSquareRound";
   background: #f3f3f3;
   outline: none;
 
-  /*  ::after {
-    content: attr(placeholder);
-  } */
+  :focus {
+    ::after {
+      content: "${(props) => (props.html ? "" : props.placeholder)}";
+      color: #999;
+    }
+  }
 `;
