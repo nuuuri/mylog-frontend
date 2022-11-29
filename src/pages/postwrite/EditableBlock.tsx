@@ -8,6 +8,7 @@ export default function EditableBlock(props: {
   tag: string;
   html: string;
   addBlock: Function;
+  deleteBlock: Function;
 }) {
   const ref = useRef<HTMLElement>(null);
   const [html, setHtml] = useState(props.html);
@@ -25,9 +26,14 @@ export default function EditableBlock(props: {
         });
       }
 
+      if (e.key === "Backspace" && html === "") {
+        e.preventDefault();
+        props.deleteBlock({ id: props.id, ref: ref.current });
+      }
+
       setPreviousKey(e.key);
     },
-    [previousKey]
+    [previousKey, html]
   );
 
   return (

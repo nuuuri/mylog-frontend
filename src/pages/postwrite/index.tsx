@@ -1,3 +1,4 @@
+import { setCaretToEnd } from "common/utils/caretHelpers";
 import { useState } from "react";
 import styled from "styled-components";
 import EditableBlock from "./EditableBlock";
@@ -11,7 +12,7 @@ export default function PostWritePage() {
     { id: string; html: string; tag: string }[]
   >([{ id: uid(), html: "", tag: "p" }]);
 
-  const addBlockHandler = (currentBlock: any) => {
+  const addBlockHandler = (currentBlock: { id: string; ref: any }) => {
     const addBlock = async () => {
       const newBlock = { id: uid(), html: "", tag: "p" };
       setBlocks((b) => [...b, newBlock]);
@@ -20,6 +21,20 @@ export default function PostWritePage() {
     addBlock().then(() => {
       currentBlock.ref.nextElementSibling.focus();
     });
+  };
+
+  const deleteBlockHandler = (currentBlock: { id: string; ref: any }) => {
+    const previousBlock = currentBlock.ref.previousElementSibling;
+
+    if (previousBlock) {
+      const deleteBlock = async () =>
+        setBlocks((b) => b.filter((block) => block.id !== currentBlock.id));
+
+      deleteBlock().then(() => {
+        setCaretToEnd(previousBlock);
+        previousBlock.focus();
+      });
+    }
   };
 
   return (
@@ -70,6 +85,7 @@ export default function PostWritePage() {
             tag={block.tag}
             html={block.html}
             addBlock={addBlockHandler}
+            deleteBlock={deleteBlockHandler}
           />
         ))}
       </Canvas>
