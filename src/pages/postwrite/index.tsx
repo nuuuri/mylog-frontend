@@ -61,7 +61,7 @@ export default function PostWritePage() {
     (currentBlock: { id: string; ref: any }) => {
       const previousBlock = currentBlock.ref.previousElementSibling;
 
-      if (previousBlock) {
+      if (previousBlock && previousBlock.id !== "post-title") {
         (async function () {
           setBlocks((b) => b.filter((block) => block.id !== currentBlock.id));
         })().then(() => {
