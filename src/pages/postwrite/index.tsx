@@ -1,5 +1,5 @@
 import { setCaretToEnd } from "common/utils/caretHelpers";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
 import EditableBlock from "./EditableBlock";
 
@@ -12,30 +12,49 @@ export default function PostWritePage() {
     { id: string; html: string; tag: string }[]
   >([{ id: uid(), html: "", tag: "p" }]);
 
-  const addBlockHandler = (currentBlock: { id: string; ref: any }) => {
-    const addBlock = async () => {
-      const newBlock = { id: uid(), html: "", tag: "p" };
-      setBlocks((b) => [...b, newBlock]);
-    };
+  const updatePageHandler = useCallback(
+    (updatedBlock: { id: string; html: string; tag: string }) => {
+      setBlocks((state) => {
+        const index = state.map((b) => b.id).indexOf(updatedBlock.id);
+        const updatedBlocks = [...state];
+        updatedBlocks[index] = { ...updatedBlock };
 
-    addBlock().then(() => {
-      currentBlock.ref.nextElementSibling.focus();
-    });
-  };
-
-  const deleteBlockHandler = (currentBlock: { id: string; ref: any }) => {
-    const previousBlock = currentBlock.ref.previousElementSibling;
-
-    if (previousBlock) {
-      const deleteBlock = async () =>
-        setBlocks((b) => b.filter((block) => block.id !== currentBlock.id));
-
-      deleteBlock().then(() => {
-        setCaretToEnd(previousBlock);
-        previousBlock.focus();
+        return updatedBlocks;
       });
-    }
-  };
+    },
+    []
+  );
+
+  const addBlockHandler = useCallback(
+    (currentBlock: { id: string; ref: any }) => {
+      const addBlock = async () => {
+        const newBlock = { id: uid(), html: "", tag: "p" };
+        setBlocks((b) => [...b, newBlock]);
+      };
+
+      addBlock().then(() => {
+        currentBlock.ref.nextElementSibling.focus();
+      });
+    },
+    []
+  );
+
+  const deleteBlockHandler = useCallback(
+    (currentBlock: { id: string; ref: any }) => {
+      const previousBlock = currentBlock.ref.previousElementSibling;
+
+      if (previousBlock) {
+        const deleteBlock = async () =>
+          setBlocks((b) => b.filter((block) => block.id !== currentBlock.id));
+
+        deleteBlock().then(() => {
+          setCaretToEnd(previousBlock);
+          previousBlock.focus();
+        });
+      }
+    },
+    []
+  );
 
   return (
     <Container>
@@ -84,6 +103,7 @@ export default function PostWritePage() {
             id={block.id}
             tag={block.tag}
             html={block.html}
+            updatePage={updatePageHandler}
             addBlock={addBlockHandler}
             deleteBlock={deleteBlockHandler}
           />

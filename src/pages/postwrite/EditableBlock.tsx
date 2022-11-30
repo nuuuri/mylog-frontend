@@ -1,12 +1,13 @@
 import { useRefCallback } from "common/utils/useRefCallback";
-import { useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
 
-export default function EditableBlock(props: {
+export default memo(function EditableBlock(props: {
   id: string;
   tag: string;
   html: string;
+  updatePage: Function;
   addBlock: Function;
   deleteBlock: Function;
 }) {
@@ -15,6 +16,16 @@ export default function EditableBlock(props: {
   const [tag, setTag] = useState(props.tag);
   const [previousKey, setPreviousKey] = useState("");
   const [selectMenuIsOpen, setSelectMenuIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (props.html !== html) {
+      props.updatePage({
+        id: props.id,
+        html: html,
+        tag: tag,
+      });
+    }
+  });
 
   const onChangeHandler = (e: any) => {
     setHtml(e.target.value === "<br>" ? "" : e.target.value);
@@ -53,7 +64,7 @@ export default function EditableBlock(props: {
       />
     </>
   );
-}
+});
 
 const StyledBlock = styled(ContentEditable)`
   font-family: "NanumSquareRound";
