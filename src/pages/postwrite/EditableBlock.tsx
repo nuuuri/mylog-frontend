@@ -17,16 +17,6 @@ export default memo(function EditableBlock(props: {
   const [previousKey, setPreviousKey] = useState("");
   const [selectMenuIsOpen, setSelectMenuIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (props.html !== html) {
-      props.updatePage({
-        id: props.id,
-        html: html,
-        tag: tag,
-      });
-    }
-  });
-
   const onChangeHandler = (e: any) => {
     setHtml(e.target.value === "<br>" ? "" : e.target.value);
   };
@@ -51,6 +41,19 @@ export default memo(function EditableBlock(props: {
     [previousKey, html]
   );
 
+  useEffect(() => {
+    const htmlChanged = props.html !== html;
+    const tagChanged = props.tag !== tag;
+
+    if (htmlChanged || tagChanged) {
+      props.updatePage({
+        id: props.id,
+        html: html,
+        tag: tag,
+      });
+    }
+  }, [html, tag, props]);
+
   return (
     <>
       {selectMenuIsOpen && <div>메뉴</div>}
@@ -71,10 +74,8 @@ const StyledBlock = styled(ContentEditable)`
   background: #f3f3f3;
   outline: none;
 
-  :focus {
-    :empty::after {
-      content: attr(placeholder);
-      color: #999;
-    }
+  :focus:empty:before {
+    content: attr(placeholder);
+    color: #999;
   }
 `;

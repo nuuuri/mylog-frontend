@@ -14,6 +14,10 @@ export default function HeaderOnlyLayout({ children }: LayoutDefaultProps) {
 
 const Main = styled.main`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   height: calc(100vh - 50px);
+  background: #e9e9e9;
   overflow: auto;
 `;

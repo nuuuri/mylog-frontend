@@ -57,9 +57,34 @@ export default function PostWritePage() {
   );
 
   return (
-    <Container>
-      {/*  <PostMenu>
-        <div>사진</div>
+    <Canvas>
+      {blocks.map((block, key) => (
+        <EditableBlock
+          key={key}
+          id={block.id}
+          tag={block.tag}
+          html={block.html}
+          updatePage={updatePageHandler}
+          addBlock={addBlockHandler}
+          deleteBlock={deleteBlockHandler}
+        />
+      ))}
+    </Canvas>
+  );
+}
+
+const Canvas = styled.div`
+  box-sizing: border-box;
+  width: 80%;
+  height: 90%;
+  margin: auto;
+  padding: 30px 80px;
+  background: #fff;
+`;
+
+/*
+  <PostMenu>
+      <div>사진</div>
         <div>동영상</div>
         <div>스티커</div>
         <div>인용구</div>
@@ -71,8 +96,8 @@ export default function PostWritePage() {
         <div>소스코드</div>
         <div>표</div>
         <div>수식</div>
-      </PostMenu>
-      <Toolbar>
+  </PostMenu>
+  <Toolbar>
         <div>본문(문단 서식)</div>
         <div>나눔고딕(서체)</div>
         <div>15(글자 크기)</div>
@@ -94,52 +119,5 @@ export default function PostWritePage() {
         <div>특수문자</div>
         <div>링크 입력</div>
         <div>맞춤법</div>
-      </Toolbar> */}
-
-      <Canvas>
-        {blocks.map((block, key) => (
-          <EditableBlock
-            key={key}
-            id={block.id}
-            tag={block.tag}
-            html={block.html}
-            updatePage={updatePageHandler}
-            addBlock={addBlockHandler}
-            deleteBlock={deleteBlockHandler}
-          />
-        ))}
-      </Canvas>
-    </Container>
-  );
-}
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background: #e9e9e9; ;
-`;
-/* const PostMenu = styled.div`
-  display: flex;
-  width: 100%;
-  height: 80px;
-  background: yellow;
-`;
-const Toolbar = styled.div`
-  display: flex;
-  width: 100%;
-  height: 40px;
-  background: pink;
-`; */
-const Canvas = styled.div`
-  box-sizing: border-box;
-  width: 80%;
-  //height: calc(100% - 140px);
-  //margin-top: 10px;
-  height: 90%;
-  margin: auto;
-  padding: 30px 80px;
-  background: #fff;
-`;
+  </Toolbar> 
+*/
