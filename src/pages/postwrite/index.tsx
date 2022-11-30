@@ -73,6 +73,12 @@ export default function PostWritePage() {
     []
   );
 
+  const setTextStyle = (
+    style: "italic" | "bold" | "strikeThrough" | "underline"
+  ) => {
+    document.execCommand(style);
+  };
+
   return (
     <Canvas>
       <ContentEditable
@@ -95,6 +101,21 @@ export default function PostWritePage() {
           deleteBlock={deleteBlockHandler}
         />
       ))}
+
+      <button onClick={() => setTextStyle("bold")}>B</button>
+      <button onClick={() => setTextStyle("italic")}>I</button>
+      <button
+        onClick={() => setTextStyle("strikeThrough")}
+        style={{ textDecoration: "line-through" }}
+      >
+        T
+      </button>
+      <button
+        onClick={() => setTextStyle("underline")}
+        style={{ textDecorationLine: "underline" }}
+      >
+        U
+      </button>
     </Canvas>
   );
 }

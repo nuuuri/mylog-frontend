@@ -62,6 +62,7 @@ export default memo(function EditableBlock(props: {
         onChange={onChangeHandler}
         onKeyDown={onKeyDownHandler}
         placeholder="내용을 입력하세요"
+        spellCheck="false"
       />
     </>
   );
