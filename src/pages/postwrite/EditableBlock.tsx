@@ -17,7 +17,7 @@ export default function EditableBlock(props: {
   const [selectMenuIsOpen, setSelectMenuIsOpen] = useState(false);
 
   const onChangeHandler = (e: any) => {
-    setHtml(e.target.value);
+    setHtml(e.target.value === "<br>" ? "" : e.target.value);
   };
 
   const onKeyDownHandler = useRefCallback(
@@ -61,8 +61,8 @@ const StyledBlock = styled(ContentEditable)`
   outline: none;
 
   :focus {
-    ::after {
-      content: "${(props) => (props.html ? "" : props.placeholder)}";
+    :empty::after {
+      content: attr(placeholder);
       color: #999;
     }
   }
