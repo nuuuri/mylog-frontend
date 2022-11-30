@@ -58,6 +58,7 @@ export default memo(function EditableBlock(props: {
     <>
       {selectMenuIsOpen && <div>메뉴</div>}
       <StyledBlock
+        id={props.id}
         innerRef={ref}
         html={html}
         tagName={tag}
