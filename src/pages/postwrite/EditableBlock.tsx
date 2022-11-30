@@ -68,7 +68,6 @@ export default memo(function EditableBlock(props: {
 });
 
 const StyledBlock = styled(ContentEditable)`
-  font-family: "NanumSquareRound";
   background: #f3f3f3;
   outline: none;
 

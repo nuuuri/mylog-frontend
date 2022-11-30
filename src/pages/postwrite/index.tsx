@@ -1,5 +1,7 @@
 import { setCaretToEnd } from "common/utils/caretHelpers";
-import { useCallback, useState } from "react";
+import { useRefCallback } from "common/utils/useRefCallback";
+import { KeyboardEvent, useCallback, useState } from "react";
+import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import styled from "styled-components";
 import EditableBlock from "./EditableBlock";
 
@@ -8,9 +10,27 @@ const uid = () => {
 };
 
 export default function PostWritePage() {
+  const [title, setTitle] = useState("");
   const [blocks, setBlocks] = useState<
     { id: string; html: string; tag: string }[]
   >([{ id: uid(), html: "", tag: "p" }]);
+
+  const onKeyDownTitleHandler = useRefCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === " " && title === "") {
+        e.preventDefault();
+      }
+
+      if (e.key === "Enter") {
+        e.preventDefault();
+        (
+          document.getElementById("post-title")
+            ?.nextElementSibling as HTMLElement
+        ).focus();
+      }
+    },
+    [title]
+  );
 
   const updatePageHandler = useCallback(
     (updatedBlock: { id: string; html: string; tag: string }) => {
@@ -58,12 +78,21 @@ export default function PostWritePage() {
 
   return (
     <Canvas>
+      <ContentEditable
+        id="post-title"
+        html={title}
+        tagName="h1"
+        onChange={(e) => setTitle(e.target.value)}
+        onKeyDown={onKeyDownTitleHandler}
+        placeholder="제목 없음"
+      />
+
       {blocks.map((block, key) => (
         <EditableBlock
           key={key}
           id={block.id}
-          tag={block.tag}
           html={block.html}
+          tag={block.tag}
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
           deleteBlock={deleteBlockHandler}
@@ -80,6 +109,16 @@ const Canvas = styled.div`
   margin: auto;
   padding: 30px 80px;
   background: #fff;
+
+  #post-title {
+    background: #f3f3f3;
+    outline: none;
+
+    :empty:before {
+      content: attr(placeholder);
+      color: #999;
+    }
+  }
 `;
 
 /*
