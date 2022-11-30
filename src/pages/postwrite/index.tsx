@@ -24,8 +24,8 @@ export default function PostWritePage() {
       if (e.key === "Enter") {
         e.preventDefault();
         (
-          document.getElementById("post-title")
-            ?.nextElementSibling as HTMLElement
+          document.getElementById("post-title")!
+            .nextElementSibling as HTMLElement
         ).focus();
       }
     },
@@ -47,12 +47,10 @@ export default function PostWritePage() {
 
   const addBlockHandler = useCallback(
     (currentBlock: { id: string; ref: any }) => {
-      const addBlock = async () => {
+      (async function () {
         const newBlock = { id: uid(), html: "", tag: "p" };
         setBlocks((b) => [...b, newBlock]);
-      };
-
-      addBlock().then(() => {
+      })().then(() => {
         currentBlock.ref.nextElementSibling.focus();
       });
     },
@@ -64,10 +62,9 @@ export default function PostWritePage() {
       const previousBlock = currentBlock.ref.previousElementSibling;
 
       if (previousBlock) {
-        const deleteBlock = async () =>
+        (async function () {
           setBlocks((b) => b.filter((block) => block.id !== currentBlock.id));
-
-        deleteBlock().then(() => {
+        })().then(() => {
           setCaretToEnd(previousBlock);
           previousBlock.focus();
         });
