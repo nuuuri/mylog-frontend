@@ -14,7 +14,6 @@ export default memo(function EditableBlock(props: {
   const ref = useRef<HTMLElement>(null);
   const [html, setHtml] = useState(props.html);
   const [tag, setTag] = useState(props.tag);
-  const [previousKey, setPreviousKey] = useState("");
   const [selectMenuIsOpen, setSelectMenuIsOpen] = useState(false);
 
   const onChangeHandler = (e: any) => {
@@ -23,7 +22,7 @@ export default memo(function EditableBlock(props: {
 
   const onKeyDownHandler = useRefCallback(
     (e: any) => {
-      if (e.key === "Enter" && previousKey !== "Shift") {
+      if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         props.addBlock({
           id: props.id,
@@ -35,10 +34,8 @@ export default memo(function EditableBlock(props: {
         e.preventDefault();
         props.deleteBlock({ id: props.id, ref: ref.current });
       }
-
-      setPreviousKey(e.key);
     },
-    [previousKey, html]
+    [html]
   );
 
   useEffect(() => {
