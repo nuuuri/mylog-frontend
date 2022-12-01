@@ -1,3 +1,4 @@
+import { getCaretCoordinates } from "common/utils/caretHelpers";
 import { useRefCallback } from "common/utils/useRefCallback";
 import { memo, useEffect, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
@@ -33,6 +34,31 @@ export default memo(function EditableBlock(props: {
       if (e.key === "Backspace" && html === "") {
         e.preventDefault();
         props.deleteBlock({ id: props.id, ref: ref.current });
+      }
+
+      if (e.key === "ArrowDown") {
+        if (window.getSelection()?.focusNode === e.target.lastChild) {
+          e.preventDefault();
+          console.log("move next block");
+        }
+      }
+
+      if (e.key === "ArrowUp") {
+        /*  const caretCoordinates = getCaretCoordinates();
+        const boundingRect = e.target.getBoundingClientRect();
+        const isCaretTop = caretCoordinates.y! <= boundingRect.y;
+
+        console.log(caretCoordinates.y, boundingRect.y);
+
+        if (isCaretTop) {
+          e.preventDefault();
+          console.log("prev");
+        } */
+
+        if (window.getSelection()?.focusNode === e.target.firstChild) {
+          e.preventDefault();
+          console.log("move prev block");
+        }
       }
     },
     [html]
