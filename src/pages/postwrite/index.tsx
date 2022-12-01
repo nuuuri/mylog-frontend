@@ -1,12 +1,18 @@
 import { setCaretToEnd } from "common/utils/caretHelpers";
 import { useRefCallback } from "common/utils/useRefCallback";
 import { KeyboardEvent, useCallback, useState } from "react";
-import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
+import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
 import EditableBlock from "./EditableBlock";
 
 const uid = () => {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
+};
+
+const deepcopy = (list: any[]) => {
+  return list.map((obj) => {
+    return { ...obj };
+  });
 };
 
 export default function PostWritePage() {
@@ -36,7 +42,7 @@ export default function PostWritePage() {
     (updatedBlock: { id: string; html: string; tag: string }) => {
       setBlocks((state) => {
         const index = state.map((b) => b.id).indexOf(updatedBlock.id);
-        const updatedBlocks = [...state];
+        const updatedBlocks = deepcopy(state);
         updatedBlocks[index] = { ...updatedBlock };
 
         return updatedBlocks;
@@ -49,7 +55,13 @@ export default function PostWritePage() {
     (currentBlock: { id: string; ref: any }) => {
       (async function () {
         const newBlock = { id: uid(), html: "", tag: "p" };
-        setBlocks((b) => [...b, newBlock]);
+        setBlocks((state) => {
+          const index = state.map((b) => b.id).indexOf(currentBlock.id);
+          const updatedBlocks = deepcopy(state);
+          updatedBlocks.splice(index + 1, 0, newBlock);
+
+          return updatedBlocks;
+        });
       })().then(() => {
         currentBlock.ref.nextElementSibling.focus();
       });
@@ -90,9 +102,9 @@ export default function PostWritePage() {
         placeholder="제목 없음"
       />
 
-      {blocks.map((block, key) => (
+      {blocks.map((block) => (
         <EditableBlock
-          key={key}
+          key={block.id}
           id={block.id}
           className="post-contents"
           html={block.html}
