@@ -94,6 +94,7 @@ export default function PostWritePage() {
         <EditableBlock
           key={key}
           id={block.id}
+          className="post-contents"
           html={block.html}
           tag={block.tag}
           updatePage={updatePageHandler}
@@ -128,11 +129,21 @@ const Canvas = styled.div`
   padding: 30px 80px;
   background: #fff;
 
-  #post-title {
+  #post-title,
+  .post-contents {
     background: #f3f3f3;
     outline: none;
+  }
 
+  #post-title {
     :empty:before {
+      content: attr(placeholder);
+      color: #999;
+    }
+  }
+
+  .post-contents {
+    :focus:empty:before {
       content: attr(placeholder);
       color: #999;
     }

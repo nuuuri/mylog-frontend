@@ -1,10 +1,10 @@
 import { useRefCallback } from "common/utils/useRefCallback";
 import { memo, useEffect, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
-import styled from "styled-components";
 
 export default memo(function EditableBlock(props: {
   id: string;
+  className?: string;
   tag: string;
   html: string;
   updatePage: Function;
@@ -54,8 +54,9 @@ export default memo(function EditableBlock(props: {
   return (
     <>
       {selectMenuIsOpen && <div>메뉴</div>}
-      <StyledBlock
+      <ContentEditable
         id={props.id}
+        className={props.className}
         innerRef={ref}
         html={html}
         tagName={tag}
@@ -67,13 +68,3 @@ export default memo(function EditableBlock(props: {
     </>
   );
 });
-
-const StyledBlock = styled(ContentEditable)`
-  background: #f3f3f3;
-  outline: none;
-
-  :focus:empty:before {
-    content: attr(placeholder);
-    color: #999;
-  }
-`;
