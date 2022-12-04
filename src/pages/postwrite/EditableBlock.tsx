@@ -11,6 +11,8 @@ export default memo(function EditableBlock(props: {
   updatePage: Function;
   addBlock: Function;
   deleteBlock: Function;
+  movePrevBlock: Function;
+  moveNextBlock: Function;
 }) {
   const ref = useRef<HTMLElement>(null);
   const [html, setHtml] = useState(props.html);
@@ -36,13 +38,6 @@ export default memo(function EditableBlock(props: {
         props.deleteBlock({ id: props.id, ref: ref.current });
       }
 
-      if (e.key === "ArrowDown") {
-        if (window.getSelection()?.focusNode === e.target.lastChild) {
-          e.preventDefault();
-          console.log("move next block");
-        }
-      }
-
       if (e.key === "ArrowUp") {
         /*  const caretCoordinates = getCaretCoordinates();
         const boundingRect = e.target.getBoundingClientRect();
@@ -55,9 +50,28 @@ export default memo(function EditableBlock(props: {
           console.log("prev");
         } */
 
-        if (window.getSelection()?.focusNode === e.target.firstChild) {
+        if (
+          html === "" ||
+          window.getSelection()?.focusNode === e.target.firstChild
+        ) {
           e.preventDefault();
-          console.log("move prev block");
+          props.movePrevBlock({
+            id: props.id,
+            ref: ref.current,
+          });
+        }
+      }
+
+      if (e.key === "ArrowDown") {
+        if (
+          html === "" ||
+          window.getSelection()?.focusNode === e.target.lastChild
+        ) {
+          e.preventDefault();
+          props.moveNextBlock({
+            id: props.id,
+            ref: ref.current,
+          });
         }
       }
     },

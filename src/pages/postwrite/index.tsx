@@ -27,7 +27,7 @@ export default function PostWritePage() {
         e.preventDefault();
       }
 
-      if (e.key === "Enter") {
+      if (e.key === "Enter" || e.key === "ArrowDown") {
         e.preventDefault();
         (
           document.getElementById("post-title")!
@@ -77,13 +77,30 @@ export default function PostWritePage() {
         (async function () {
           setBlocks((b) => b.filter((block) => block.id !== currentBlock.id));
         })().then(() => {
-          setCaretToEnd(previousBlock);
           previousBlock.focus();
+          setCaretToEnd(previousBlock);
         });
       }
     },
     []
   );
+
+  const movePrevBlockHandler = (currentBlock: { id: string; ref: any }) => {
+    const previousBlock = currentBlock.ref.previousElementSibling;
+
+    if (previousBlock) {
+      previousBlock.focus();
+      setCaretToEnd(previousBlock);
+    }
+  };
+
+  const moveNextBlockHandler = (currentBlock: { id: string; ref: any }) => {
+    const nextBlock = currentBlock.ref.nextElementSibling;
+
+    if (nextBlock) {
+      nextBlock.focus();
+    }
+  };
 
   const setTextStyle = (
     style: "italic" | "bold" | "strikeThrough" | "underline"
@@ -112,6 +129,8 @@ export default function PostWritePage() {
           updatePage={updatePageHandler}
           addBlock={addBlockHandler}
           deleteBlock={deleteBlockHandler}
+          movePrevBlock={movePrevBlockHandler}
+          moveNextBlock={moveNextBlockHandler}
         />
       ))}
 
