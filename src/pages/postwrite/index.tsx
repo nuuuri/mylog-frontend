@@ -108,6 +108,10 @@ export default function PostWritePage() {
     document.execCommand(style);
   };
 
+  const submit = () => {
+    console.log(title, blocks);
+  };
+
   return (
     <Canvas>
       <ContentEditable
@@ -118,7 +122,6 @@ export default function PostWritePage() {
         onKeyDown={onKeyDownTitleHandler}
         placeholder="제목 없음"
       />
-
       {blocks.map((block) => (
         <EditableBlock
           key={block.id}
@@ -133,7 +136,6 @@ export default function PostWritePage() {
           moveNextBlock={moveNextBlockHandler}
         />
       ))}
-
       <button onClick={() => setTextStyle("bold")}>B</button>
       <button onClick={() => setTextStyle("italic")}>I</button>
       <button
@@ -148,11 +150,13 @@ export default function PostWritePage() {
       >
         U
       </button>
+      <Button onClick={submit}>저장하기</Button>
     </Canvas>
   );
 }
 
 const Canvas = styled.div`
+  position: relative;
   box-sizing: border-box;
   width: 80%;
   height: 90%;
@@ -179,6 +183,11 @@ const Canvas = styled.div`
       color: #999;
     }
   }
+`;
+const Button = styled.button`
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
 `;
 
 /*
