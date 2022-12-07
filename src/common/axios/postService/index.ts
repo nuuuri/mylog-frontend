@@ -9,7 +9,7 @@ class PostService {
     title: string;
     blocks: { html: string; tag: string }[];
   }) {
-    return axios.post(`${this.BASE_URL}`, { data });
+    return axios.post(`${this.BASE_URL}`, data);
   }
 
   getPost(id: number) {

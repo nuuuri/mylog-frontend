@@ -1,3 +1,4 @@
+import postService from "common/axios/postService";
 import { setCaretToEnd } from "common/utils/caretHelpers";
 import { useRefCallback } from "common/utils/useRefCallback";
 import { KeyboardEvent, useCallback, useState } from "react";
@@ -108,8 +109,22 @@ export default function PostWritePage() {
     document.execCommand(style);
   };
 
-  const submit = () => {
-    console.log(title, blocks);
+  const submit = async () => {
+    const userId = "nuuuri";
+    const categoryId = 1;
+
+    await postService
+      .createPost({
+        userId: userId,
+        categoryId: categoryId,
+        title: title,
+        blocks: blocks.map((block) => {
+          return { html: block.html, tag: block.tag };
+        }),
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
   };
 
   return (
