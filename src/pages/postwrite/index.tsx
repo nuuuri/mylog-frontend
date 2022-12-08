@@ -1,6 +1,7 @@
 import postService from "common/axios/postService";
 import { setCaretToEnd } from "common/utils/caretHelpers";
 import { useRefCallback } from "common/utils/useRefCallback";
+import HeaderLayout from "layouts/HeaderLayout";
 import { KeyboardEvent, useCallback, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";

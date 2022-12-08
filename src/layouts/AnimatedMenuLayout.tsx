@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Outlet } from "react-router";
 import { LayoutDefaultProps } from "@types";
+import { ReactComponent as menuIcon } from "assets/images/menu-icon.svg";
 import Header from "components/Header";
 import GNB from "components/GNB";
 
@@ -10,10 +11,9 @@ export default function AnimatedMenuLayout({ children }: LayoutDefaultProps) {
 
   return (
     <>
-      <Header
-        type="MENU"
-        onClickMenu={() => setIsFullScreen((state) => !state)}
-      />
+      <Header>
+        <MenuIcon onClick={() => setIsFullScreen((state) => !state)} />
+      </Header>
       <Main>
         <AnimatedGnb isFullScreen={isFullScreen}>
           <GNB />
@@ -23,7 +23,11 @@ export default function AnimatedMenuLayout({ children }: LayoutDefaultProps) {
     </>
   );
 }
-
+const MenuIcon = styled(menuIcon)`
+  margin-left: 20px;
+  filter: invert(1);
+  cursor: pointer;
+`;
 const Main = styled.main`
   display: flex;
   height: calc(100vh - 50px);

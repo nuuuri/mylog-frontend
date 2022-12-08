@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "../styles/fonts.css";
 // layouts
-import { AnimatedMenuLayout } from "layouts";
+import AnimatedMenuLayout from "layouts/AnimatedMenuLayout";
+import HeaderLayout from "layouts/HeaderLayout";
 // pages
 import HomePage from "pages/home";
 import CategoryPage from "pages/category";
 import PostWritePage from "pages/postwrite";
-import HeaderOnlyLayout from "layouts/HeaderOnlyLayout";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
             element={<CategoryPage />}
           />
         </Route>
-        <Route element={<HeaderOnlyLayout />}>
+        <Route element={<HeaderLayout />}>
           <Route path="/postwrite" element={<PostWritePage />} />
         </Route>
       </Routes>
