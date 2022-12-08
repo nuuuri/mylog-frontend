@@ -1,11 +1,10 @@
-import postService from "common/axios/postService";
-import { setCaretToEnd } from "common/utils/caretHelpers";
-import { useRefCallback } from "common/utils/useRefCallback";
-import HeaderLayout from "layouts/HeaderLayout";
 import { KeyboardEvent, useCallback, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
 import EditableBlock from "./EditableBlock";
+import postService from "common/axios/postService";
+import { setCaretToEnd } from "common/utils/caretHelpers";
+import { useRefCallback } from "common/utils/useRefCallback";
 
 const uid = () => {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
@@ -17,7 +16,13 @@ const deepcopy = (list: any[]) => {
   });
 };
 
+const CATEGORY = [
+  { id: 1, label: "Frontend", name: "Frontend", subCategories: [] },
+  { id: 2, label: "Backend", name: "Backend", subCategories: [] },
+];
+
 export default function PostWritePage() {
+  const [categoryId, setCategoryId] = useState(0);
   const [title, setTitle] = useState("");
   const [blocks, setBlocks] = useState<
     { id: string; html: string; tag: string }[]
@@ -31,10 +36,12 @@ export default function PostWritePage() {
 
       if (e.key === "Enter" || e.key === "ArrowDown") {
         e.preventDefault();
-        (
-          document.getElementById("post-title")!
-            .nextElementSibling as HTMLElement
-        ).focus();
+
+        const firstBlock = document.getElementsByClassName(
+          "post-contents"
+        )[0] as HTMLElement;
+
+        firstBlock.focus();
       }
     },
     [title]
@@ -112,7 +119,6 @@ export default function PostWritePage() {
 
   const submit = async () => {
     const userId = "nuuuri";
-    const categoryId = 1;
 
     await postService
       .createPost({
@@ -130,14 +136,31 @@ export default function PostWritePage() {
 
   return (
     <Canvas>
-      <ContentEditable
-        id="post-title"
-        html={title}
-        tagName="h1"
-        onChange={(e) => setTitle(e.target.value)}
-        onKeyDown={onKeyDownTitleHandler}
-        placeholder="제목 없음"
-      />
+      <div style={{ display: "flex" }}>
+        <select
+          style={{ width: "150px", marginRight: "10px" }}
+          defaultValue={0}
+          onChange={(e) => setCategoryId(parseInt(e.target.value))}
+        >
+          <option disabled hidden value={0}>
+            카테고리 선택
+          </option>
+          {CATEGORY.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <ContentEditable
+          id="post-title"
+          html={title}
+          tagName="h1"
+          onChange={(e) => setTitle(e.target.value)}
+          onKeyDown={onKeyDownTitleHandler}
+          placeholder="제목 없음"
+        />
+      </div>
+
       {blocks.map((block) => (
         <EditableBlock
           key={block.id}
@@ -166,6 +189,7 @@ export default function PostWritePage() {
       >
         U
       </button>
+
       <Button onClick={submit}>저장하기</Button>
     </Canvas>
   );
@@ -177,7 +201,7 @@ const Canvas = styled.div`
   width: 80%;
   height: 90%;
   margin: auto;
-  padding: 30px 80px;
+  padding: 40px 80px;
   background: #fff;
 
   #post-title,
@@ -187,6 +211,9 @@ const Canvas = styled.div`
   }
 
   #post-title {
+    width: calc(100% - 160px);
+    margin: 0;
+
     :empty:before {
       content: attr(placeholder);
       color: #999;
