@@ -94,22 +94,28 @@ export default function PostWritePage() {
     []
   );
 
-  const movePrevBlockHandler = (currentBlock: { id: string; ref: any }) => {
-    const previousBlock = currentBlock.ref.previousElementSibling;
+  const movePrevBlockHandler = useCallback(
+    (currentBlock: { id: string; ref: any }) => {
+      const previousBlock = currentBlock.ref.previousElementSibling;
 
-    if (previousBlock) {
-      previousBlock.focus();
-      setCaretToEnd(previousBlock);
-    }
-  };
+      if (previousBlock) {
+        previousBlock.focus();
+        setCaretToEnd(previousBlock);
+      }
+    },
+    []
+  );
 
-  const moveNextBlockHandler = (currentBlock: { id: string; ref: any }) => {
-    const nextBlock = currentBlock.ref.nextElementSibling;
+  const moveNextBlockHandler = useCallback(
+    (currentBlock: { id: string; ref: any }) => {
+      const nextBlock = currentBlock.ref.nextElementSibling;
 
-    if (nextBlock) {
-      nextBlock.focus();
-    }
-  };
+      if (nextBlock) {
+        nextBlock.focus();
+      }
+    },
+    []
+  );
 
   const setTextStyle = (
     style: "italic" | "bold" | "strikeThrough" | "underline"
