@@ -1,110 +1,76 @@
-import { getCaretCoordinates } from "common/utils/caretHelpers";
+import styled from "styled-components";
+import { KeyboardEvent, memo, useRef } from "react";
+import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
+import { Block } from "@types";
 import { useRefCallback } from "common/utils/useRefCallback";
-import { memo, useEffect, useRef, useState } from "react";
-import ContentEditable from "react-contenteditable";
 
-export default memo(function EditableBlock(props: {
-  id: string;
-  className?: string;
-  tag: string;
-  html: string;
-  updatePage: Function;
-  addBlock: Function;
-  deleteBlock: Function;
-  movePrevBlock: Function;
-  moveNextBlock: Function;
-}) {
+interface Props {
+  data: Block;
+  setData: (currentBlock: Block) => void;
+  onKeyDownBlock: (currentBlock: Block, e: KeyboardEvent) => void;
+}
+
+export default memo(function EditableBlock({
+  data,
+  setData,
+  onKeyDownBlock,
+}: Props) {
   const ref = useRef<HTMLElement>(null);
-  const [html, setHtml] = useState(props.html);
-  const [tag, setTag] = useState(props.tag);
-  const [selectMenuIsOpen, setSelectMenuIsOpen] = useState(false);
 
-  const onChangeHandler = (e: any) => {
-    setHtml(e.target.value === "<br>" ? "" : e.target.value);
-  };
+  const onChange = useRefCallback(
+    (e: ContentEditableEvent) => {
+      const value = e.target.value === "<br>" ? "" : e.target.value;
 
-  const onKeyDownHandler = useRefCallback(
-    (e: any) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        props.addBlock({
-          id: props.id,
-          ref: ref.current,
-        });
-      }
+      setData({
+        ...data,
+        html: value,
+      });
+    },
+    [data]
+  );
 
-      if (e.key === "Backspace" && html === "") {
-        e.preventDefault();
-        props.deleteBlock({ id: props.id, ref: ref.current });
-      }
-
-      if (e.key === "ArrowUp") {
-        /*  const caretCoordinates = getCaretCoordinates();
-        const boundingRect = e.target.getBoundingClientRect();
-        const isCaretTop = caretCoordinates.y! <= boundingRect.y;
-
-        console.log(caretCoordinates.y, boundingRect.y);
-
-        if (isCaretTop) {
-          e.preventDefault();
-          console.log("prev");
-        } */
-
-        if (
-          html === "" ||
-          window.getSelection()?.focusNode === e.target.firstChild
-        ) {
-          e.preventDefault();
-          props.movePrevBlock({
-            id: props.id,
-            ref: ref.current,
-          });
-        }
-      }
-
-      if (e.key === "ArrowDown") {
-        if (
-          html === "" ||
-          window.getSelection()?.focusNode === e.target.lastChild
-        ) {
-          e.preventDefault();
-          props.moveNextBlock({
-            id: props.id,
-            ref: ref.current,
-          });
-        }
+  const onKeyDown = useRefCallback(
+    (e: KeyboardEvent) => {
+      if (ref.current) {
+        onKeyDownBlock(data, e);
       }
     },
-    [html]
+    [data]
   );
-
-  useEffect(() => {
-    const htmlChanged = props.html !== html;
-    const tagChanged = props.tag !== tag;
-
-    if (htmlChanged || tagChanged) {
-      props.updatePage({
-        id: props.id,
-        html: html,
-        tag: tag,
-      });
-    }
-  }, [html, tag, props]);
 
   return (
-    <>
-      {selectMenuIsOpen && <div>메뉴</div>}
-      <ContentEditable
-        id={props.id}
-        className={props.className}
-        innerRef={ref}
-        html={html}
-        tagName={tag}
-        onChange={onChangeHandler}
-        onKeyDown={onKeyDownHandler}
-        placeholder="내용을 입력하세요"
-        spellCheck="false"
-      />
-    </>
+    <StyledContentEditable
+      innerRef={ref}
+      id={String(data.id)}
+      className="post-contents"
+      html={data.html}
+      tagName={data.tag}
+      spellCheck="false"
+      placeholder="내용을 입력하세요"
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+    />
   );
 });
+
+const StyledContentEditable = styled(ContentEditable)`
+  background: #f3f3f3;
+  outline: none;
+
+  :focus:empty:before {
+    content: attr(placeholder);
+    color: #999;
+  }
+`;
+
+const Menu = styled.div`
+  position: absolute;
+  bottom: -104px;
+  width: 150px;
+  height: 100px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px,
+    rgb(15 15 15 / 10%) 0px 3px 6px, rgb(15 15 15 / 20%) 0px 9px 24px;
+  z-index: 1;
+`;

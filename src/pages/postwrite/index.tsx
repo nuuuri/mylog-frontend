@@ -1,20 +1,11 @@
-import { KeyboardEvent, useCallback, useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
+import { Block } from "@types";
+import { useRefCallback } from "common/utils/useRefCallback";
+import { useEditableBlocks } from "common/utils/useEditableBlocks";
 import EditableBlock from "./EditableBlock";
 import postService from "common/axios/postService";
-import { setCaretToEnd } from "common/utils/caretHelpers";
-import { useRefCallback } from "common/utils/useRefCallback";
-
-const uid = () => {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2);
-};
-
-const deepcopy = (list: any[]) => {
-  return list.map((obj) => {
-    return { ...obj };
-  });
-};
 
 const CATEGORY = [
   { id: 1, label: "Frontend", name: "Frontend", subCategories: [] },
@@ -24,11 +15,16 @@ const CATEGORY = [
 export default function PostWritePage() {
   const [categoryId, setCategoryId] = useState(0);
   const [title, setTitle] = useState("");
-  const [blocks, setBlocks] = useState<
-    { id: string; html: string; tag: string }[]
-  >([{ id: uid(), html: "", tag: "p" }]);
+  const {
+    blocks,
+    addBlock,
+    updateBlock,
+    deleteBlock,
+    focusOnPreviousBlock,
+    focusOnNextBlock,
+  } = useEditableBlocks();
 
-  const onKeyDownTitleHandler = useRefCallback(
+  const onKeyDownTitle = useRefCallback(
     (e: KeyboardEvent) => {
       if (e.key === " " && title === "") {
         e.preventDefault();
@@ -47,74 +43,50 @@ export default function PostWritePage() {
     [title]
   );
 
-  const updatePageHandler = useCallback(
-    (updatedBlock: { id: string; html: string; tag: string }) => {
-      setBlocks((state) => {
-        const index = state.map((b) => b.id).indexOf(updatedBlock.id);
-        const updatedBlocks = deepcopy(state);
-        updatedBlocks[index] = { ...updatedBlock };
+  const onKeyDownEditableBlock = useRefCallback(
+    (currentBlock: Block, e: any) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        addBlock(currentBlock);
+      }
 
-        return updatedBlocks;
-      });
-    },
-    []
-  );
+      if (e.key === "Backspace" && currentBlock.html === "") {
+        e.preventDefault();
+        deleteBlock(currentBlock);
+      }
 
-  const addBlockHandler = useCallback(
-    (currentBlock: { id: string; ref: any }) => {
-      (async function () {
-        const newBlock = { id: uid(), html: "", tag: "p" };
-        setBlocks((state) => {
-          const index = state.map((b) => b.id).indexOf(currentBlock.id);
-          const updatedBlocks = deepcopy(state);
-          updatedBlocks.splice(index + 1, 0, newBlock);
+      if (e.key === "ArrowUp") {
+        /*  const caretCoordinates = getCaretCoordinates();
+        const boundingRect = e.target.getBoundingClientRect();
+        const isCaretTop = caretCoordinates.y! <= boundingRect.y;
 
-          return updatedBlocks;
-        });
-      })().then(() => {
-        currentBlock.ref.nextElementSibling.focus();
-      });
-    },
-    []
-  );
+        console.log(caretCoordinates.y, boundingRect.y);
 
-  const deleteBlockHandler = useCallback(
-    (currentBlock: { id: string; ref: any }) => {
-      const previousBlock = currentBlock.ref.previousElementSibling;
+        if (isCaretTop) {
+          e.preventDefault();
+          console.log("prev");
+        } */
 
-      if (previousBlock && previousBlock.id !== "post-title") {
-        (async function () {
-          setBlocks((b) => b.filter((block) => block.id !== currentBlock.id));
-        })().then(() => {
-          previousBlock.focus();
-          setCaretToEnd(previousBlock);
-        });
+        if (
+          currentBlock.html === "" ||
+          window.getSelection()?.focusNode === e.target.firstChild
+        ) {
+          e.preventDefault();
+          focusOnPreviousBlock(currentBlock);
+        }
+      }
+
+      if (e.key === "ArrowDown") {
+        if (
+          currentBlock.html === "" ||
+          window.getSelection()?.focusNode === e.target.lastChild
+        ) {
+          e.preventDefault();
+          focusOnNextBlock(currentBlock);
+        }
       }
     },
-    []
-  );
-
-  const movePrevBlockHandler = useCallback(
-    (currentBlock: { id: string; ref: any }) => {
-      const previousBlock = currentBlock.ref.previousElementSibling;
-
-      if (previousBlock) {
-        previousBlock.focus();
-        setCaretToEnd(previousBlock);
-      }
-    },
-    []
-  );
-
-  const moveNextBlockHandler = useCallback(
-    (currentBlock: { id: string; ref: any }) => {
-      const nextBlock = currentBlock.ref.nextElementSibling;
-
-      if (nextBlock) {
-        nextBlock.focus();
-      }
-    },
-    []
+    [addBlock, deleteBlock, focusOnPreviousBlock, focusOnNextBlock]
   );
 
   const setTextStyle = (
@@ -162,7 +134,7 @@ export default function PostWritePage() {
           html={title}
           tagName="h1"
           onChange={(e) => setTitle(e.target.value)}
-          onKeyDown={onKeyDownTitleHandler}
+          onKeyDown={onKeyDownTitle}
           placeholder="제목 없음"
         />
       </div>
@@ -170,17 +142,12 @@ export default function PostWritePage() {
       {blocks.map((block) => (
         <EditableBlock
           key={block.id}
-          id={block.id}
-          className="post-contents"
-          html={block.html}
-          tag={block.tag}
-          updatePage={updatePageHandler}
-          addBlock={addBlockHandler}
-          deleteBlock={deleteBlockHandler}
-          movePrevBlock={movePrevBlockHandler}
-          moveNextBlock={moveNextBlockHandler}
+          data={block}
+          setData={updateBlock}
+          onKeyDownBlock={onKeyDownEditableBlock}
         />
       ))}
+
       <button onClick={() => setTextStyle("bold")}>B</button>
       <button onClick={() => setTextStyle("italic")}>I</button>
       <button
@@ -210,24 +177,13 @@ const Canvas = styled.div`
   padding: 40px 80px;
   background: #fff;
 
-  #post-title,
-  .post-contents {
-    background: #f3f3f3;
-    outline: none;
-  }
-
   #post-title {
     width: calc(100% - 160px);
     margin: 0;
+    background: #f3f3f3;
+    outline: none;
 
     :empty:before {
-      content: attr(placeholder);
-      color: #999;
-    }
-  }
-
-  .post-contents {
-    :focus:empty:before {
       content: attr(placeholder);
       color: #999;
     }
