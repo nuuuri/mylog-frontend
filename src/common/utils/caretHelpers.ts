@@ -23,26 +23,19 @@ export const getCaretCoordinates = () => {
   return { x, y };
 };
 
-/* export const setCaretToEnd = (element: any) => {
+export const setCaretToEnd = (element: HTMLElement) => {
   const range = document.createRange();
   const selection = window.getSelection();
 
-  // Select all the content from the contenteditable element
-  range.selectNodeContents(element);
-  // Collapse it to the end, i.e. putting the cursor to the end
+  if (element.hasChildNodes()) {
+    range.selectNodeContents(element.lastChild!);
+  } else {
+    range.selectNodeContents(element);
+  }
+
   range.collapse(false);
-  // Clear all existing selections
   selection?.removeAllRanges();
-  // Put the new range in place
   selection?.addRange(range);
 
   element.focus();
-};
- */
-
-export const setCaretToEnd = (element: Element) => {
-  const selection = window.getSelection();
-
-  selection?.selectAllChildren(element);
-  selection?.collapseToEnd();
 };
