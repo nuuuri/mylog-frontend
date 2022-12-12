@@ -23,7 +23,7 @@ export const getCaretCoordinates = () => {
   return { x, y };
 };
 
-export const setCaretToEnd = (element: any) => {
+/* export const setCaretToEnd = (element: any) => {
   const range = document.createRange();
   const selection = window.getSelection();
 
@@ -37,4 +37,12 @@ export const setCaretToEnd = (element: any) => {
   selection?.addRange(range);
 
   element.focus();
+};
+ */
+
+export const setCaretToEnd = (element: Element) => {
+  const selection = window.getSelection();
+
+  selection?.selectAllChildren(element);
+  selection?.collapseToEnd();
 };
