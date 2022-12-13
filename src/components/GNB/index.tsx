@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import CategoryList from "./CategoryList";
+import CategoryList from "../CategoryList";
 
 // GlobalNavigationBar
 export default function GNB() {
