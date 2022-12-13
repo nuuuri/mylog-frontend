@@ -12,7 +12,7 @@ export const getCaretCoordinates = () => {
       // Collapse the range to the start, so there are not multiple chars selected
       range.collapse(false);
       // getCientRects returns all the positioning information we need
-      const rect = range.getClientRects()[0];
+      const rect = range.getBoundingClientRect();
 
       if (rect) {
         x = rect.left;

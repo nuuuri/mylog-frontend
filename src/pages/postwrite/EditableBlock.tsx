@@ -19,11 +19,11 @@ export default memo(function EditableBlock({
 
   const onChange = useRefCallback(
     (e: ContentEditableEvent) => {
-      const value = e.target.value === "<br>" ? "" : e.target.value;
+      //const value = e.target.value === "<br>" ? "" : e.target.value;
 
       setData({
         ...data,
-        html: value,
+        html: e.target.value,
       });
     },
     [data]
@@ -56,6 +56,8 @@ export default memo(function EditableBlock({
 const StyledContentEditable = styled(ContentEditable)`
   background: #f3f3f3;
   outline: none;
+  font-family: "sans-serif";
+  line-height: 25px;
 
   :focus:empty:before {
     content: attr(placeholder);

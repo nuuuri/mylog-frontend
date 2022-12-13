@@ -6,11 +6,14 @@ import { useRefCallback } from "common/utils/useRefCallback";
 import { useEditableBlocks } from "common/utils/useEditableBlocks";
 import EditableBlock from "./EditableBlock";
 import postService from "common/axios/postService";
+import { getCaretCoordinates } from "common/utils/caretHelpers";
 
 const CATEGORY = [
   { id: 1, label: "Frontend", name: "Frontend", subCategories: [] },
   { id: 2, label: "Backend", name: "Backend", subCategories: [] },
 ];
+
+const lineHeight = 25;
 
 export default function PostWritePage() {
   const [categoryId, setCategoryId] = useState(0);
@@ -56,31 +59,23 @@ export default function PostWritePage() {
       }
 
       if (e.key === "ArrowUp") {
-        /*  const caretCoordinates = getCaretCoordinates();
+        const caretCoordinates = getCaretCoordinates();
         const boundingRect = e.target.getBoundingClientRect();
-        const isCaretTop = caretCoordinates.y! <= boundingRect.y;
+        const isCaretTop = caretCoordinates.y! - lineHeight <= boundingRect.top;
 
-        console.log(caretCoordinates.y, boundingRect.y);
-
-        if (isCaretTop) {
-          e.preventDefault();
-          console.log("prev");
-        } */
-
-        if (
-          currentBlock.html === "" ||
-          window.getSelection()?.focusNode === e.target.firstChild
-        ) {
+        if (currentBlock.html === "" || isCaretTop) {
           e.preventDefault();
           focusOnPreviousBlock(currentBlock);
         }
       }
 
       if (e.key === "ArrowDown") {
-        if (
-          currentBlock.html === "" ||
-          window.getSelection()?.focusNode === e.target.lastChild
-        ) {
+        const caretCoordinates = getCaretCoordinates();
+        const boundingRect = e.target.getBoundingClientRect();
+        const isCaretBottom =
+          caretCoordinates.y! + lineHeight >= boundingRect.bottom;
+
+        if (currentBlock.html === "" || isCaretBottom) {
           e.preventDefault();
           focusOnNextBlock(currentBlock);
         }

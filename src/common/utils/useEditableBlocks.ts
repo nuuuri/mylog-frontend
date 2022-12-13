@@ -5,11 +5,11 @@ import { uid } from "./functions";
 
 export const useEditableBlocks = () => {
   const [blocks, setBlocks] = useState<Block[]>([
-    { id: uid(), html: "", tag: "p" },
+    { id: uid(), html: "", tag: "pre" },
   ]);
 
   const addBlock = useCallback((currentBlock: Block) => {
-    const newBlock: Block = { id: uid(), html: "", tag: "p" };
+    const newBlock: Block = { id: uid(), html: "", tag: "pre" };
 
     (async function () {
       setBlocks((state) => {
