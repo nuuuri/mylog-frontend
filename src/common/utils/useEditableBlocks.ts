@@ -1,9 +1,10 @@
 import { Block } from "@types";
 import { useCallback, useState } from "react";
-import { setCaretToEnd } from "./caretHelpers";
+import { getCaretCoordinates, setCaretToEnd } from "./caretHelpers";
 import { uid } from "./functions";
 
-export const useEditableBlocks = () => {
+export const useEditableBlocks = (option?: { lineHeight?: number }) => {
+  const lineHeight = option?.lineHeight ?? 25;
   const [blocks, setBlocks] = useState<Block[]>([
     { id: uid(), html: "", tag: "pre" },
   ]);
@@ -69,6 +70,44 @@ export const useEditableBlocks = () => {
     }
   }, []);
 
+  const onKeyDownBlock = useCallback(
+    (currentBlock: Block, e: any) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        addBlock(currentBlock);
+      }
+
+      if (e.key === "Backspace" && currentBlock.html === "") {
+        e.preventDefault();
+        deleteBlock(currentBlock);
+      }
+
+      if (e.key === "ArrowUp") {
+        const caretCoordinates = getCaretCoordinates();
+        const boundingRect = e.target.getBoundingClientRect();
+        const isCaretTop = caretCoordinates.y! - lineHeight <= boundingRect.top;
+
+        if (currentBlock.html === "" || isCaretTop) {
+          e.preventDefault();
+          focusOnPreviousBlock(currentBlock);
+        }
+      }
+
+      if (e.key === "ArrowDown") {
+        const caretCoordinates = getCaretCoordinates();
+        const boundingRect = e.target.getBoundingClientRect();
+        const isCaretBottom =
+          caretCoordinates.y! + lineHeight >= boundingRect.bottom;
+
+        if (currentBlock.html === "" || isCaretBottom) {
+          e.preventDefault();
+          focusOnNextBlock(currentBlock);
+        }
+      }
+    },
+    [lineHeight, addBlock, deleteBlock, focusOnPreviousBlock, focusOnNextBlock]
+  );
+
   return {
     blocks,
     addBlock,
@@ -76,5 +115,6 @@ export const useEditableBlocks = () => {
     deleteBlock,
     focusOnPreviousBlock,
     focusOnNextBlock,
+    onKeyDownBlock,
   };
 };

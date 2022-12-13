@@ -1,31 +1,20 @@
 import { KeyboardEvent, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
-import { Block } from "@types";
 import { useRefCallback } from "common/utils/useRefCallback";
 import { useEditableBlocks } from "common/utils/useEditableBlocks";
 import EditableBlock from "./EditableBlock";
 import postService from "common/axios/postService";
-import { getCaretCoordinates } from "common/utils/caretHelpers";
 
 const CATEGORY = [
   { id: 1, label: "Frontend", name: "Frontend", subCategories: [] },
   { id: 2, label: "Backend", name: "Backend", subCategories: [] },
 ];
 
-const lineHeight = 25;
-
 export default function PostWritePage() {
   const [categoryId, setCategoryId] = useState(0);
   const [title, setTitle] = useState("");
-  const {
-    blocks,
-    addBlock,
-    updateBlock,
-    deleteBlock,
-    focusOnPreviousBlock,
-    focusOnNextBlock,
-  } = useEditableBlocks();
+  const { blocks, updateBlock, onKeyDownBlock } = useEditableBlocks();
 
   const onKeyDownTitle = useRefCallback(
     (e: KeyboardEvent) => {
@@ -44,44 +33,6 @@ export default function PostWritePage() {
       }
     },
     [title]
-  );
-
-  const onKeyDownEditableBlock = useRefCallback(
-    (currentBlock: Block, e: any) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        addBlock(currentBlock);
-      }
-
-      if (e.key === "Backspace" && currentBlock.html === "") {
-        e.preventDefault();
-        deleteBlock(currentBlock);
-      }
-
-      if (e.key === "ArrowUp") {
-        const caretCoordinates = getCaretCoordinates();
-        const boundingRect = e.target.getBoundingClientRect();
-        const isCaretTop = caretCoordinates.y! - lineHeight <= boundingRect.top;
-
-        if (currentBlock.html === "" || isCaretTop) {
-          e.preventDefault();
-          focusOnPreviousBlock(currentBlock);
-        }
-      }
-
-      if (e.key === "ArrowDown") {
-        const caretCoordinates = getCaretCoordinates();
-        const boundingRect = e.target.getBoundingClientRect();
-        const isCaretBottom =
-          caretCoordinates.y! + lineHeight >= boundingRect.bottom;
-
-        if (currentBlock.html === "" || isCaretBottom) {
-          e.preventDefault();
-          focusOnNextBlock(currentBlock);
-        }
-      }
-    },
-    [addBlock, deleteBlock, focusOnPreviousBlock, focusOnNextBlock]
   );
 
   const setTextStyle = (
@@ -124,6 +75,7 @@ export default function PostWritePage() {
             </option>
           ))}
         </select>
+
         <ContentEditable
           id="post-title"
           html={title}
@@ -139,7 +91,7 @@ export default function PostWritePage() {
           key={block.id}
           data={block}
           setData={updateBlock}
-          onKeyDownBlock={onKeyDownEditableBlock}
+          onKeyDownBlock={onKeyDownBlock}
         />
       ))}
 
