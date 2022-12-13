@@ -1,22 +1,20 @@
-import { Category } from "@types";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
 import CategoryLink from "./CategoryLink";
 import SubCategoryList from "./SubCategoryList";
-import categoryService from "common/axios/categoryService";
+import CategoryStore from "common/store/CategoryStore";
 
-export default function CategoryList() {
-  const [categoryList, setCategoryList] = useState<Category[]>([]);
+export default observer(function CategoryList() {
+  const { categories } = CategoryStore;
 
   useEffect(() => {
-    categoryService.getCategoryList().then((res) => {
-      setCategoryList(res.data);
-    });
+    CategoryStore.fetchCategories();
   }, []);
 
   return (
     <Container className="category-list">
-      {categoryList.map((category) => (
+      {categories.map((category) => (
         <li key={category.id} className="category">
           <CategoryLink {...category} />
 
@@ -27,7 +25,7 @@ export default function CategoryList() {
       ))}
     </Container>
   );
-}
+});
 
 const Container = styled.ul`
   list-style-type: none;
