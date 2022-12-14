@@ -1,36 +1,50 @@
 import { Category } from "@types";
 import categoryService from "common/axios/categoryService";
-import { makeAutoObservable, toJS } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 class CategoryStore {
-  categories: Category[] = [];
+  private _categories: Category[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  fetchCategories() {
-    categoryService
-      .getCategoryList()
-      .then((res) => {
-        this.categories = res.data;
-      })
-      .catch((err) => console.log("[ERROR] : FETCH CATEGORIES"));
+  set categories(categories: Category[]) {
+    this._categories = categories;
+  }
+
+  get categories() {
+    return this._categories;
+  }
+
+  async fetchCategories() {
+    try {
+      const { data: categories } = await categoryService.getCategoryList();
+
+      this.categories = categories;
+    } catch (err) {
+      console.log("[ERROR] : FETCH CATEGORIES");
+    }
   }
 
   // 모든 카테고리 1차원 배열로 반환
-  getAllCategories() {
-    let categoryList: any[] = [];
+  async getCategorySelectOptions() {
+    try {
+      let options: { text: string; value: number }[] = [];
 
-    this.categories.forEach((category) => {
-      categoryList.push(toJS(category));
+      const { data: categories } = await categoryService.getCategoryList();
 
-      category.subCategories.forEach((sub) => {
-        categoryList.push(toJS(sub));
+      categories.forEach((category: Category) => {
+        options.push({ text: category.label, value: category.id });
+        category.subCategories.forEach((sub) => {
+          options.push({ text: sub.label, value: sub.id });
+        });
       });
-    });
 
-    return categoryList;
+      return options;
+    } catch (err) {
+      console.log("[ERROR] : GET CATEGORY SELECT OPTIONS");
+    }
   }
 }
 
