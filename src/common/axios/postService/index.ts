@@ -15,6 +15,10 @@ class PostService {
   getPost(id: number) {
     return axios.get(`${this.BASE_URL}/${id}`);
   }
+
+  getTotalPostList() {
+    return axios.get(`${this.BASE_URL}`);
+  }
 }
 
 export default new PostService();
