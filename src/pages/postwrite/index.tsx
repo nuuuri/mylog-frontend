@@ -1,17 +1,16 @@
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
 import { useRefCallback } from "common/utils/useRefCallback";
 import { useEditableBlocks } from "common/utils/useEditableBlocks";
 import EditableBlock from "./EditableBlock";
 import postService from "common/axios/postService";
-
-const CATEGORY = [
-  { id: 1, label: "Frontend", name: "Frontend", subCategories: [] },
-  { id: 2, label: "Backend", name: "Backend", subCategories: [] },
-];
+import { SelectOption } from "@types";
+import CategoryStore from "common/store/CategoryStore";
+import Select from "components/Select";
 
 export default function PostWritePage() {
+  const [categoryList, setCategoryList] = useState<SelectOption[]>([]);
   const [categoryId, setCategoryId] = useState(0);
   const [title, setTitle] = useState("");
   const { blocks, updateBlock, onKeyDownBlock } = useEditableBlocks();
@@ -41,40 +40,33 @@ export default function PostWritePage() {
     document.execCommand(style);
   };
 
-  const submit = async () => {
-    const userId = "nuuuri";
-
-    await postService
-      .createPost({
-        userId: userId,
-        categoryId: categoryId,
-        title: title,
-        blocks: blocks.map((block) => {
-          return { html: block.html, tag: block.tag };
-        }),
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
+  const submit = () => {
+    postService.createPost({
+      userId: "nuuuri",
+      categoryId: categoryId,
+      title: title,
+      blocks: blocks.map((block) => {
+        return { html: block.html, tag: block.tag };
+      }),
+    });
   };
+
+  useEffect(() => {
+    CategoryStore.getCategorySelectOptions().then((res: any) => {
+      setCategoryList(res);
+    });
+  }, []);
 
   return (
     <Canvas>
       <div style={{ display: "flex" }}>
-        <select
-          style={{ width: "150px", marginRight: "10px" }}
-          defaultValue={0}
-          onChange={(e) => setCategoryId(parseInt(e.target.value))}
-        >
-          <option disabled hidden value={0}>
-            카테고리 선택
-          </option>
-          {CATEGORY.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+        <Select
+          label="카테고리"
+          placeholder="카테고리 선택"
+          onChange={setCategoryId}
+          options={categoryList}
+          style={{ width: 180, margin: "0 10px 0 0" }}
+        />
 
         <ContentEditable
           id="post-title"
