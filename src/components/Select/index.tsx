@@ -1,16 +1,13 @@
+import { SelectOption } from "@types";
 import { useBoolean } from "common/utils/useBoolean";
-import { CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-interface Option {
-  text: string;
-  value: any;
-}
 interface Props {
   label?: string;
   placeholder?: string;
   onChange: any;
-  options: Option[];
+  options: SelectOption[];
   style?: {
     width?: number;
     height?: number;
@@ -25,7 +22,7 @@ export default function Select({
   options,
   style,
 }: Props) {
-  const [selected, select] = useState<Option>({
+  const [selected, select] = useState<SelectOption>({
     text: placeholder ?? "Select...",
     value: null,
   });
@@ -59,12 +56,14 @@ const SelectBox = styled.div<{ selectStyle: any }>`
   width: ${(props) =>
     props.selectStyle?.width ? `${props.selectStyle?.width}px` : "140px"};
   height: ${(props) =>
-    props.selectStyle.height ? `${props.selectStyle.height}px` : "50px"};
-  margin: ${(props) => props.selectStyle.margin};
+    props.selectStyle?.height ? `${props.selectStyle?.height}px` : "50px"};
+  margin: ${(props) => props.selectStyle?.margin};
 
   & > .select {
     line-height: ${(props) =>
-      props.selectStyle.height ? `${props.selectStyle.height - 20}px` : "30px"};
+      props.selectStyle?.height
+        ? `${props.selectStyle?.height - 20}px`
+        : "30px"};
   }
 `;
 const Label = styled.div`
