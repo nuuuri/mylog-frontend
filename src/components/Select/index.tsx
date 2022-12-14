@@ -1,5 +1,5 @@
 import { useBoolean } from "common/utils/useBoolean";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface Option {
@@ -11,12 +11,22 @@ interface Props {
   placeholder?: string;
   onChange: any;
   options: Option[];
+  style?: {
+    width?: number;
+    height?: number;
+    margin?: string;
+  };
 }
 
-export default function Select({ label, onChange, options, ...props }: Props) {
-  const placeholder = props.placeholder ?? "Select...";
+export default function Select({
+  label,
+  placeholder,
+  onChange,
+  options,
+  style,
+}: Props) {
   const [selected, select] = useState<Option>({
-    text: placeholder,
+    text: placeholder ?? "Select...",
     value: null,
   });
   const { value: isMenuOpen, toggle: toggleMenu } = useBoolean(false);
@@ -26,9 +36,9 @@ export default function Select({ label, onChange, options, ...props }: Props) {
   }, [selected, onChange]);
 
   return (
-    <SelectBox onClick={toggleMenu}>
+    <SelectBox onClick={toggleMenu} selectStyle={style}>
       {label && <Label>{label}</Label>}
-      <Selected selected={placeholder !== selected.text}>
+      <Selected className="select" selected={!!selected.value}>
         {selected.text}
       </Selected>
       {isMenuOpen && (
@@ -44,9 +54,18 @@ export default function Select({ label, onChange, options, ...props }: Props) {
   );
 }
 
-const SelectBox = styled.div`
+const SelectBox = styled.div<{ selectStyle: any }>`
   position: relative;
-  width: 140px;
+  width: ${(props) =>
+    props.selectStyle?.width ? `${props.selectStyle?.width}px` : "140px"};
+  height: ${(props) =>
+    props.selectStyle.height ? `${props.selectStyle.height}px` : "50px"};
+  margin: ${(props) => props.selectStyle.margin};
+
+  & > .select {
+    line-height: ${(props) =>
+      props.selectStyle.height ? `${props.selectStyle.height - 20}px` : "30px"};
+  }
 `;
 const Label = styled.div`
   position: absolute;
@@ -62,15 +81,15 @@ const Selected = styled.div<{ selected: boolean }>`
   box-sizing: border-box;
   position: relative;
   width: 100%;
-  height: 50px;
-  line-height: 30px;
+  height: 100%;
   padding: 10px 30px 10px 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${(props) => (props.selected ? "#333" : "#999")};
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
 
