@@ -19,6 +19,14 @@ class PostService {
   getTotalPostList() {
     return axios.get(`${this.BASE_URL}`);
   }
+
+  getPostListByCategory(categoryName: string) {
+    return axios.get(`${this.BASE_URL}/category`, {
+      params: {
+        name: categoryName,
+      },
+    });
+  }
 }
 
 export default new PostService();

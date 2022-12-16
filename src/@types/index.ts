@@ -20,3 +20,16 @@ export interface SelectOption {
   text: string;
   value: string | number | null;
 }
+
+export interface PostCardItem {
+  id: number;
+  category: string;
+  writer: string;
+  title: string;
+  preview: string;
+  modified: string;
+  look: number;
+  thumbnail?: string;
+}
+
+export type PostCards = PostCardItem[];

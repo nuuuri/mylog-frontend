@@ -1,29 +1,17 @@
+import { PostCardItem } from "@types";
 import styled from "styled-components";
 
-/*
-const dummy = {
-    id: 1,
-    writer: 1, // user_uuid
-    category: "test",
-    title: "첫번째 게시물입니다.",
-    content: "test test test",
-    created: "2022-11-23 12:17",
-    modified: "2022-11-23 12:38",
-    tags: ["test", "테스트"],
-  };
-*/
-
-export default function PostCard(props: { post: any }) {
+export default function PostCard(props: { post: PostCardItem }) {
   const { post } = props;
 
   return (
     <Container>
       <Post>
         <div className="post-title">{post.title}</div>
-        <div className="post-content">{post.content}</div>
+        <div className="post-content">{post.preview}</div>
         <PostMeta>
           <div className="post-category">{post.category}</div>
-          <div className="post-date">{post.created}</div>
+          <div className="post-date">{post.modified}</div>
         </PostMeta>
         {/*   <Tags>
           {post.tags.map((tag: string, idx: number) => (

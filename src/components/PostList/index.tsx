@@ -2,10 +2,11 @@ import { useState } from "react";
 import styled from "styled-components";
 import PostCard from "./PostCard";
 import Pagination from "components/Pagination";
+import { PostCards } from "@types";
 
 export default function PostList(props: {
   title: String;
-  posts: any[];
+  posts: PostCards;
   limit?: number;
 }) {
   const { title, posts } = props;
