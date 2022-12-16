@@ -1,5 +1,6 @@
 import { PostCardItem } from "@types";
 import styled from "styled-components";
+import moment from "moment";
 
 export default function PostCard(props: { post: PostCardItem }) {
   const { post } = props;
@@ -11,7 +12,9 @@ export default function PostCard(props: { post: PostCardItem }) {
         <div className="post-content">{post.preview}</div>
         <PostMeta>
           <div className="post-category">{post.category}</div>
-          <div className="post-date">{post.modified}</div>
+          <div className="post-date">
+            {moment(post.modified).format("YY/MM/DD HH:mm")}
+          </div>
         </PostMeta>
         {/*   <Tags>
           {post.tags.map((tag: string, idx: number) => (
