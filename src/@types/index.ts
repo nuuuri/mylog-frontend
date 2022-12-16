@@ -33,3 +33,11 @@ export interface PostCardItem {
 }
 
 export type PostCards = PostCardItem[];
+
+export interface PostDetail {
+  id: number;
+  category: string;
+  userId: string;
+  title: string;
+  blocks: Block[];
+}

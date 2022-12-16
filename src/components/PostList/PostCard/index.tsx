@@ -9,7 +9,7 @@ export default function PostCard(props: { post: PostCardItem }) {
 
   return (
     <Container>
-      <Post>
+      <Post onClick={() => navigate(`/post/${post.id}`)}>
         <div className="post-title">{post.title}</div>
         <div className="post-content">{post.preview}</div>
         <PostMeta>
@@ -51,6 +51,7 @@ const Post = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-word;
+    cursor: pointer;
   }
   .post-title {
     font-size: 15px;

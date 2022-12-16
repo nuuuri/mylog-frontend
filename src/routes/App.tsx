@@ -7,6 +7,7 @@ import HeaderLayout from "layouts/HeaderLayout";
 import HomePage from "pages/home";
 import CategoryPage from "pages/category";
 import PostWritePage from "pages/postwrite";
+import PostPage from "pages/post";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             path="/category/:category/:subCategory"
             element={<CategoryPage />}
           />
+          <Route path="/post/:id" element={<PostPage />} />
         </Route>
         <Route element={<HeaderLayout />}>
           <Route path="/postwrite" element={<PostWritePage />} />
