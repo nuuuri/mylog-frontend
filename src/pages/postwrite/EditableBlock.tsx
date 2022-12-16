@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { KeyboardEvent, memo, useRef } from "react";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import { Block } from "@types";
-import { useRefCallback } from "common/utils/useRefCallback";
+import { useRefCallback } from "common/utils";
 
 interface Props {
   data: Block;

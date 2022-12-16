@@ -1,14 +1,13 @@
-import { KeyboardEvent, useEffect, useState } from "react";
-import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
-import { useRefCallback } from "common/utils/useRefCallback";
-import { useEditableBlocks } from "common/utils/useEditableBlocks";
-import EditableBlock from "./EditableBlock";
-import postService from "common/axios/postService";
+import { KeyboardEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ContentEditable from "react-contenteditable";
 import { SelectOption } from "@types";
+import { useRefCallback, useEditableBlocks } from "common/utils";
+import postService from "common/axios/postService";
 import CategoryStore from "common/store/CategoryStore";
 import Select from "components/Select";
-import { useNavigate } from "react-router-dom";
+import EditableBlock from "./EditableBlock";
 
 export default function PostWritePage() {
   const navigate = useNavigate();

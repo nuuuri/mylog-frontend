@@ -1,5 +1,5 @@
 import { SelectOption } from "@types";
-import { useBoolean } from "common/utils/useBoolean";
+import { useBoolean } from "common/utils";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
