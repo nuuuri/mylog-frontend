@@ -1,21 +1,29 @@
 import styled from "styled-components";
-import { observer } from "mobx-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import PostStore from "common/store/PostStore";
+import { PostDetail } from "@types";
+import postService from "common/axios/postService";
 
-export default observer(function PostPage() {
+export default function PostPage() {
   const { id } = useParams();
-  const { post } = PostStore;
+  const [post, setPost] = useState<PostDetail>({
+    id: 0,
+    userId: "",
+    category: "",
+    title: "",
+    blocks: [],
+  });
 
   const htmlToPlainText = (html: string) => {
     return html.replace(/&lt;/, "<").replace(/&gt;/gi, ">");
   };
 
   useEffect(() => {
-    if (id) {
-      PostStore.fetchPost(parseInt(id));
-    }
+    if (!id) return;
+
+    postService.getPost(parseInt(id)).then((res) => {
+      setPost(res.data);
+    });
   }, [id]);
 
   return (
@@ -29,7 +37,7 @@ export default observer(function PostPage() {
       ))}
     </Container>
   );
-});
+}
 
 const Container = styled.div`
   cursor: default;
