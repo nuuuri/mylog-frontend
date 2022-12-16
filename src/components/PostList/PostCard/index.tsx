@@ -1,9 +1,11 @@
 import { PostCardItem } from "@types";
 import styled from "styled-components";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 export default function PostCard(props: { post: PostCardItem }) {
   const { post } = props;
+  const navigate = useNavigate();
 
   return (
     <Container>
@@ -11,7 +13,12 @@ export default function PostCard(props: { post: PostCardItem }) {
         <div className="post-title">{post.title}</div>
         <div className="post-content">{post.preview}</div>
         <PostMeta>
-          <div className="post-category">{post.category}</div>
+          <div
+            className="post-category"
+            onClick={() => navigate(`/category/${post.category}`)}
+          >
+            {post.category.split("/").pop()}
+          </div>
           <div className="post-date">
             {moment(post.modified).format("YY/MM/DD HH:mm")}
           </div>
