@@ -8,8 +8,10 @@ import postService from "common/axios/postService";
 import { SelectOption } from "@types";
 import CategoryStore from "common/store/CategoryStore";
 import Select from "components/Select";
+import { useNavigate } from "react-router-dom";
 
 export default function PostWritePage() {
+  const navigate = useNavigate();
   const [categoryList, setCategoryList] = useState<SelectOption[]>([]);
   const [categoryId, setCategoryId] = useState(0);
   const [title, setTitle] = useState("");
@@ -41,14 +43,18 @@ export default function PostWritePage() {
   };
 
   const submit = () => {
-    postService.createPost({
-      userId: "nuuuri",
-      categoryId: categoryId,
-      title: title,
-      blocks: blocks.map((block) => {
-        return { html: block.html, tag: block.tag };
-      }),
-    });
+    postService
+      .createPost({
+        userId: "nuuuri",
+        categoryId: categoryId,
+        title: title,
+        blocks: blocks.map((block) => {
+          return { html: block.html, tag: block.tag };
+        }),
+      })
+      .then(() => {
+        navigate("/", { replace: true });
+      });
   };
 
   useEffect(() => {
