@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import PostCard from "./PostCard";
-import Pagination from "components/Pagination";
 import { PostCards } from "@types";
+import PostCard from "components/PostCard";
+import Pagination from "components/Pagination";
 
 export default function PostList(props: {
   title: String;

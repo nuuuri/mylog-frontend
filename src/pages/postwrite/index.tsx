@@ -7,7 +7,7 @@ import { useRefCallback, useEditableBlocks } from "common/utils";
 import postService from "common/axios/postService";
 import CategoryStore from "common/store/CategoryStore";
 import Select from "components/Select";
-import EditableBlock from "./EditableBlock";
+import EditableBlock from "components/EditableBlock";
 
 export default function PostWritePage() {
   const navigate = useNavigate();
