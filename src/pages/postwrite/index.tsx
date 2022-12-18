@@ -8,13 +8,14 @@ import postService from "common/axios/postService";
 import CategoryStore from "common/store/CategoryStore";
 import Select from "components/Select";
 import EditableBlock from "components/EditableBlock";
+import EditMenu from "components/EditMenu";
 
 export default function PostWritePage() {
   const navigate = useNavigate();
   const [categoryList, setCategoryList] = useState<SelectOption[]>([]);
   const [categoryId, setCategoryId] = useState(0);
   const [title, setTitle] = useState("");
-  const { blocks, updateBlock, onKeyDownBlock } = useEditableBlocks();
+  const { blocks, menu, updateBlock, onKeyDownBlock } = useEditableBlocks();
 
   const onKeyDownTitle = useRefCallback(
     (e: KeyboardEvent) => {
@@ -91,6 +92,8 @@ export default function PostWritePage() {
           onKeyDownBlock={onKeyDownBlock}
         />
       ))}
+
+      {menu.isOpen && <EditMenu position={{ x: menu.x, y: menu.y }} />}
 
       <button onClick={() => setTextStyle("bold")}>B</button>
       <button onClick={() => setTextStyle("italic")}>I</button>

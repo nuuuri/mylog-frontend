@@ -74,15 +74,3 @@ const StyledContentEditable = styled(ContentEditable)`
     color: #999;
   }
 `;
-
-const Menu = styled.div`
-  position: absolute;
-  bottom: -104px;
-  width: 150px;
-  height: 100px;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px,
-    rgb(15 15 15 / 10%) 0px 3px 6px, rgb(15 15 15 / 20%) 0px 9px 24px;
-  z-index: 1;
-`;

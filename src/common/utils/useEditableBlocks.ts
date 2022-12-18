@@ -5,9 +5,11 @@ import { uid } from "./functions";
 
 export const useEditableBlocks = (option?: { lineHeight?: number }) => {
   const lineHeight = option?.lineHeight ?? 25;
+  const CMD_KEY = "/";
   const [blocks, setBlocks] = useState<Block[]>([
     { id: uid(), html: "", tag: "pre" },
   ]);
+  const [menu, setMenu] = useState({ isOpen: false, x: 0, y: 0 });
 
   const addBlock = useCallback((currentBlock: Block) => {
     const newBlock: Block = { id: uid(), html: "", tag: "pre" };
@@ -72,6 +74,18 @@ export const useEditableBlocks = (option?: { lineHeight?: number }) => {
 
   const onKeyDownBlock = useCallback(
     (currentBlock: Block, e: any) => {
+      if (e.key === CMD_KEY && !menu.isOpen) {
+        const boundingRect = e.target.getBoundingClientRect();
+
+        setMenu({ isOpen: true, x: boundingRect.left, y: boundingRect.bottom });
+      } else {
+        if (menu.isOpen) {
+          setMenu((m) => {
+            return { ...m, isOpen: false };
+          });
+        }
+      }
+
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         addBlock(currentBlock);
@@ -105,11 +119,20 @@ export const useEditableBlocks = (option?: { lineHeight?: number }) => {
         }
       }
     },
-    [lineHeight, addBlock, deleteBlock, focusOnPreviousBlock, focusOnNextBlock]
+    [
+      lineHeight,
+      menu,
+      setMenu,
+      addBlock,
+      deleteBlock,
+      focusOnPreviousBlock,
+      focusOnNextBlock,
+    ]
   );
 
   return {
     blocks,
+    menu,
     addBlock,
     updateBlock,
     deleteBlock,
