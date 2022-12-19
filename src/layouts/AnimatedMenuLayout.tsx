@@ -37,7 +37,8 @@ const Page = styled.div<{ isFullScreen: boolean }>`
   box-sizing: border-box;
   max-width: 100vw;
   max-height: calc(100vh - 50px);
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   animation: ${(props) =>
     props.isFullScreen ? "gnbClose 0.3s" : "gnbOpen 0.3s"};
   animation-fill-mode: both;

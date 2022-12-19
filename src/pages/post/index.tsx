@@ -45,4 +45,6 @@ const Container = styled.div`
 const Block = styled.pre`
   font-family: "sans-serif";
   line-height: 25px;
+  overflow: auto;
+  white-space: pre-wrap;
 `;
