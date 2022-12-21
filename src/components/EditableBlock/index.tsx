@@ -1,37 +1,84 @@
 import styled from "styled-components";
-import { KeyboardEvent, memo, useRef } from "react";
+import { memo, useRef } from "react";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
-import { Block } from "@types";
-import { useRefCallback } from "common/utils";
+import {
+  getCaretCoordinates,
+  setCaretToEnd,
+  useRefCallback,
+} from "common/utils";
+import store from "common/store/EditorStore";
+import { TAGS } from "common/store/EditorStore/type";
 
 interface Props {
-  data: Block;
-  setData: (currentBlock: Block) => void;
-  onKeyDownBlock: (currentBlock: Block, e: KeyboardEvent) => void;
+  data: { id: string | number; html: string; tag: TAGS };
 }
 
-export default memo(function EditableBlock({
-  data,
-  setData,
-  onKeyDownBlock,
-}: Props) {
+export default memo(function EditableBlock({ data }: Props) {
   const ref = useRef<HTMLElement>(null);
+  const { addBlock, updateBlock, deleteBlock } = store;
+  const lineHeight = 25;
 
   const onChange = useRefCallback(
     (e: ContentEditableEvent) => {
       resize(e);
-      setData({
-        ...data,
+      updateBlock({
+        id: data.id + "",
         html: e.target.value,
+        tag: data.tag,
       });
     },
     [data]
   );
 
   const onKeyDown = useRefCallback(
-    (e: KeyboardEvent) => {
-      if (ref.current) {
-        onKeyDownBlock(data, e);
+    (e: any) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        addBlock(data.id + "").then((nextBlock) => {
+          nextBlock.getBlockElement().focus();
+        });
+      }
+
+      if (e.key === "Backspace" && data.html === "") {
+        e.preventDefault();
+        deleteBlock(data.id + "").then((previousBlock) => {
+          if (previousBlock) {
+            setCaretToEnd(previousBlock.getBlockElement());
+          }
+        });
+      }
+
+      if (e.key === "ArrowUp") {
+        const caretCoordinates = getCaretCoordinates();
+        const boundingRect = e.target.getBoundingClientRect();
+        const isCaretTop = caretCoordinates.y! - lineHeight <= boundingRect.top;
+
+        if (data.html === "" || isCaretTop) {
+          e.preventDefault();
+
+          const previousBlockElement = store
+            .getBlock(data.id + "")
+            .getPreviousBlockElement();
+
+          setCaretToEnd(previousBlockElement);
+        }
+      }
+
+      if (e.key === "ArrowDown") {
+        const caretCoordinates = getCaretCoordinates();
+        const boundingRect = e.target.getBoundingClientRect();
+        const isCaretBottom =
+          caretCoordinates.y! + lineHeight >= boundingRect.bottom;
+
+        if (data.html === "" || isCaretBottom) {
+          e.preventDefault();
+
+          const nextBlockElement = store
+            .getBlock(data.id + "")
+            .getNextBlockElement();
+
+          nextBlockElement.focus();
+        }
       }
     },
     [data]

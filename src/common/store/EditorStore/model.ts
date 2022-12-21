@@ -7,14 +7,18 @@ class Block {
   html: string = "";
   tag: TAGS = "pre";
 
-  constructor(value?: { id: any; html: string; tag: TAGS }) {
+  constructor(value?: { id?: any; html?: string; tag?: TAGS }) {
     makeAutoObservable(this);
 
     if (value) {
-      this.id = value.id + "";
-      this.html = value.html;
-      this.tag = value.tag;
+      this.id = String(value.id) ?? uid();
+      this.html = value.html ?? "";
+      this.tag = value.tag ?? "pre";
     }
+  }
+
+  get data() {
+    return { id: this.id, html: this.html, tag: this.tag };
   }
 
   getBlockElement() {

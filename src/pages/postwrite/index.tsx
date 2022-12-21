@@ -2,20 +2,22 @@ import styled from "styled-components";
 import { KeyboardEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ContentEditable from "react-contenteditable";
+import { observer } from "mobx-react-lite";
 import { SelectOption } from "@types";
-import { useRefCallback, useEditableBlocks } from "common/utils";
+import { useRefCallback } from "common/utils";
 import postService from "common/axios/postService";
 import CategoryStore from "common/store/CategoryStore";
 import Select from "components/Select";
 import EditableBlock from "components/EditableBlock";
 import EditMenu from "components/EditMenu";
+import EditorStore from "common/store/EditorStore";
 
-export default function PostWritePage() {
+export default observer(function PostWritePage() {
   const navigate = useNavigate();
   const [categoryList, setCategoryList] = useState<SelectOption[]>([]);
   const [categoryId, setCategoryId] = useState(0);
   const [title, setTitle] = useState("");
-  const { blocks, menu, updateBlock, onKeyDownBlock } = useEditableBlocks();
+  const { blocks } = EditorStore;
 
   const onKeyDownTitle = useRefCallback(
     (e: KeyboardEvent) => {
@@ -85,15 +87,10 @@ export default function PostWritePage() {
       </div>
 
       {blocks.map((block) => (
-        <EditableBlock
-          key={block.id}
-          data={block}
-          setData={updateBlock}
-          onKeyDownBlock={onKeyDownBlock}
-        />
+        <EditableBlock key={block.id} data={block.data} />
       ))}
 
-      {menu.isOpen && <EditMenu position={{ x: menu.x, y: menu.y }} />}
+      {/*       {menu.isOpen && <EditMenu position={{ x: menu.x, y: menu.y }} />} */}
 
       <button onClick={() => setTextStyle("bold")}>B</button>
       <button onClick={() => setTextStyle("italic")}>I</button>
@@ -113,7 +110,7 @@ export default function PostWritePage() {
       <Button onClick={submit}>저장하기</Button>
     </Canvas>
   );
-}
+});
 
 const Canvas = styled.div`
   position: relative;
