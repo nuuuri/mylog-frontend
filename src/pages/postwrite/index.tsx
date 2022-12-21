@@ -7,10 +7,8 @@ import { SelectOption } from "@types";
 import { useRefCallback } from "common/utils";
 import postService from "common/axios/postService";
 import CategoryStore from "common/store/CategoryStore";
-import Select from "components/Select";
-import EditableBlock from "components/EditableBlock";
-import EditMenu from "components/EditMenu";
 import EditorStore from "common/store/EditorStore";
+import { EditableBlock, Select } from "components";
 
 export default observer(function PostWritePage() {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { PostCards } from "@types";
 import { useEffect, useState } from "react";
 import postService from "common/axios/postService";
-import PostList from "components/PostList";
+import { PostList } from "components";
 
 export default function HomePage() {
   const [posts, setPosts] = useState<PostCards>([]);

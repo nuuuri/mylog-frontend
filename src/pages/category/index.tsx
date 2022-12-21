@@ -2,7 +2,7 @@ import { PostCards } from "@types";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import postService from "common/axios/postService";
-import PostList from "components/PostList";
+import { PostList } from "components";
 
 export default function CategoryPage() {
   const { category, subCategory } = useParams();

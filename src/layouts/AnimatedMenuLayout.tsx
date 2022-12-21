@@ -3,8 +3,7 @@ import { useState } from "react";
 import { Outlet } from "react-router";
 import { LayoutDefaultProps } from "@types";
 import { ReactComponent as menuIcon } from "assets/images/menu-icon.svg";
-import Header from "components/Header";
-import GNB from "components/GNB";
+import { Header, GNB } from "components";
 
 export default function AnimatedMenuLayout({ children }: LayoutDefaultProps) {
   const [isFullScreen, setIsFullScreen] = useState(false);

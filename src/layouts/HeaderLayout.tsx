@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
 import { LayoutDefaultProps } from "@types";
 import { ReactComponent as backIcon } from "assets/images/backward-arrow.svg";
-import Header from "components/Header";
+import { Header } from "components";
 
 export default function HeaderLayout({ children }: LayoutDefaultProps) {
   const navigate = useNavigate();
