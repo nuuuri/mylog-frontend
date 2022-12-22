@@ -1,6 +1,6 @@
 import { SelectOption } from "@types";
 import { useBoolean } from "common/utils";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface Props {
@@ -15,41 +15,39 @@ interface Props {
   };
 }
 
-export default function Select({
-  label,
-  placeholder,
-  onChange,
-  options,
-  style,
-}: Props) {
-  const [selected, select] = useState<SelectOption>({
-    text: placeholder ?? "Select...",
-    value: null,
-  });
-  const { value: isMenuOpen, toggle: toggleMenu } = useBoolean(false);
+export default memo(
+  function Select({ label, placeholder, onChange, options, style }: Props) {
+    const [selected, select] = useState<SelectOption>({
+      text: placeholder ?? "Select...",
+      value: null,
+    });
+    const { value: isMenuOpen, toggle: toggleMenu } = useBoolean(false);
 
-  useEffect(() => {
-    onChange(selected.value);
-  }, [selected, onChange]);
+    useEffect(() => {
+      onChange(selected.value);
+    }, [selected, onChange]);
 
-  return (
-    <SelectBox onClick={toggleMenu} selectStyle={style}>
-      {label && <Label>{label}</Label>}
-      <Selected className="select" selected={!!selected.value}>
-        {selected.text}
-      </Selected>
-      {isMenuOpen && (
-        <Menu>
-          {options.map((option, idx) => (
-            <Item key={idx} onClick={() => select(option)}>
-              {option.text}
-            </Item>
-          ))}
-        </Menu>
-      )}
-    </SelectBox>
-  );
-}
+    return (
+      <SelectBox onClick={toggleMenu} selectStyle={style}>
+        {label && <Label>{label}</Label>}
+        <Selected className="select" selected={!!selected.value}>
+          {selected.text}
+        </Selected>
+        {isMenuOpen && (
+          <Menu>
+            {options.map((option, idx) => (
+              <Item key={idx} onClick={() => select(option)}>
+                {option.text}
+              </Item>
+            ))}
+          </Menu>
+        )}
+      </SelectBox>
+    );
+  },
+  (prevProps, nextProps) =>
+    JSON.stringify(prevProps) === JSON.stringify(nextProps)
+);
 
 const SelectBox = styled.div<{ selectStyle: any }>`
   position: relative;
