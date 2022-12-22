@@ -20,10 +20,9 @@ export default memo(function EditableBlock({ data }: Props) {
 
   const onChange = useRefCallback(
     (e: ContentEditableEvent) => {
-      resize(e);
       updateBlock({
         id: data.id + "",
-        html: e.target.value,
+        html: e.target.value.replace("<br>", "\n"),
         tag: data.tag,
       });
     },
@@ -84,13 +83,6 @@ export default memo(function EditableBlock({ data }: Props) {
     [data]
   );
 
-  const resize = (e: any) => {
-    const obj = e.currentTarget;
-
-    obj.style.height = ""; // 다시 줄어들 때 필요
-    obj.style.height = obj.scrollHeight + "px";
-  };
-
   return (
     <StyledContentEditable
       innerRef={ref}
@@ -107,13 +99,10 @@ export default memo(function EditableBlock({ data }: Props) {
 });
 
 const StyledContentEditable = styled(ContentEditable)`
+  font-family: "sans-serif";
   width: 100%;
   background: #f3f3f3;
   outline: none;
-  font-family: "sans-serif";
-  line-height: 25px;
-
-  overflow: auto;
   white-space: pre-wrap;
 
   :focus:empty:before {
