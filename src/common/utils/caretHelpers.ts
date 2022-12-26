@@ -39,3 +39,25 @@ export const setCaretToEnd = (element: HTMLElement) => {
 
   element.focus();
 };
+
+export const getElementLineHeight = (element: HTMLElement) => {
+  return element.style.lineHeight
+    ? +element.style.lineHeight.split("px")[0]
+    : 21;
+};
+
+export const isCaretTopOfElement = (element: HTMLElement) => {
+  const caretCoordinates = getCaretCoordinates();
+  const boundingRect = element.getBoundingClientRect();
+
+  return caretCoordinates.y! - getElementLineHeight(element) < boundingRect.top;
+};
+
+export const isCaretBottomOfElement = (element: HTMLElement) => {
+  const caretCoordinates = getCaretCoordinates();
+  const boundingRect = element.getBoundingClientRect();
+
+  return (
+    caretCoordinates.y! + getElementLineHeight(element) >= boundingRect.bottom
+  );
+};

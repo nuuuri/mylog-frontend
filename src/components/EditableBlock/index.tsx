@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { memo, useRef } from "react";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import {
-  getCaretCoordinates,
+  isCaretBottomOfElement,
+  isCaretTopOfElement,
   setCaretToEnd,
   useRefCallback,
 } from "common/utils";
@@ -16,7 +17,6 @@ interface Props {
 export default memo(function EditableBlock({ data }: Props) {
   const ref = useRef<HTMLElement>(null);
   const { addBlock, updateBlock, deleteBlock } = store;
-  const lineHeight = 25;
 
   const onChange = useRefCallback(
     (e: ContentEditableEvent) => {
@@ -48,11 +48,7 @@ export default memo(function EditableBlock({ data }: Props) {
       }
 
       if (e.key === "ArrowUp") {
-        const caretCoordinates = getCaretCoordinates();
-        const boundingRect = e.target.getBoundingClientRect();
-        const isCaretTop = caretCoordinates.y! - lineHeight <= boundingRect.top;
-
-        if (data.html === "" || isCaretTop) {
+        if (data.html === "" || isCaretTopOfElement(e.target)) {
           e.preventDefault();
 
           const previousBlockElement = store
@@ -64,12 +60,7 @@ export default memo(function EditableBlock({ data }: Props) {
       }
 
       if (e.key === "ArrowDown") {
-        const caretCoordinates = getCaretCoordinates();
-        const boundingRect = e.target.getBoundingClientRect();
-        const isCaretBottom =
-          caretCoordinates.y! + lineHeight >= boundingRect.bottom;
-
-        if (data.html === "" || isCaretBottom) {
+        if (data.html === "" || isCaretBottomOfElement(e.target)) {
           e.preventDefault();
 
           const nextBlockElement = store
@@ -94,6 +85,7 @@ export default memo(function EditableBlock({ data }: Props) {
       placeholder="내용을 입력하세요"
       onChange={onChange}
       onKeyDown={onKeyDown}
+      style={{ lineHeight: "25px" }}
     />
   );
 });
