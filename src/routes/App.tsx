@@ -11,7 +11,7 @@ import PostPage from "pages/post";
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route element={<AnimatedMenuLayout />}>
           <Route index element={<HomePage />} />

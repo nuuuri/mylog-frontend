@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.ff70a1eb.css",
-    "main.js": "/static/js/main.c2cf7e64.js",
-    "static/js/787.49ff551a.chunk.js": "/static/js/787.49ff551a.chunk.js",
-    "static/media/오리.jpg": "/static/media/오리.15dedd1970fd0a211f2a.jpg",
-    "static/media/backward-arrow.svg": "/static/media/backward-arrow.6609a5565e444dcead0c035a1a4e6bdb.svg",
-    "index.html": "/index.html",
-    "static/media/menu-icon.svg": "/static/media/menu-icon.19fb64e1e61acba7091499ecd478a55f.svg",
-    "main.ff70a1eb.css.map": "/static/css/main.ff70a1eb.css.map",
-    "main.c2cf7e64.js.map": "/static/js/main.c2cf7e64.js.map",
-    "787.49ff551a.chunk.js.map": "/static/js/787.49ff551a.chunk.js.map"
+    "main.css": "/mylog-frontend/static/css/main.ff70a1eb.css",
+    "main.js": "/mylog-frontend/static/js/main.fbb5c8fa.js",
+    "static/js/787.49ff551a.chunk.js": "/mylog-frontend/static/js/787.49ff551a.chunk.js",
+    "static/media/오리.jpg": "/mylog-frontend/static/media/오리.15dedd1970fd0a211f2a.jpg",
+    "static/media/backward-arrow.svg": "/mylog-frontend/static/media/backward-arrow.6609a5565e444dcead0c035a1a4e6bdb.svg",
+    "index.html": "/mylog-frontend/index.html",
+    "static/media/menu-icon.svg": "/mylog-frontend/static/media/menu-icon.19fb64e1e61acba7091499ecd478a55f.svg",
+    "main.ff70a1eb.css.map": "/mylog-frontend/static/css/main.ff70a1eb.css.map",
+    "main.fbb5c8fa.js.map": "/mylog-frontend/static/js/main.fbb5c8fa.js.map",
+    "787.49ff551a.chunk.js.map": "/mylog-frontend/static/js/787.49ff551a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ff70a1eb.css",
-    "static/js/main.c2cf7e64.js"
+    "static/js/main.fbb5c8fa.js"
   ]
 }
